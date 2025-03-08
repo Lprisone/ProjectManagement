@@ -1,12 +1,11 @@
-/**
- * MENU菜单
- */
 import React from 'react';
 
 const App = () => {
-    return <div>
-        HELLO
+  return (
+    <div>
+      <h1>Hello, Admin System!</h1>
     </div>
-}
+  );
+};
 
 export default App;
