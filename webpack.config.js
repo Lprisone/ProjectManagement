@@ -21,6 +21,17 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // 将 CSS 转换为 JavaScript 字符串，并将其注入到 DOM 中
+          'style-loader',
+          // 解析 @import 和 url() 等语句
+          'css-loader',
+          // 将 SCSS 编译为 CSS
+          'sass-loader',
+        ],
+      },
     ],
   },
   resolve: {
