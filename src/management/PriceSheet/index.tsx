@@ -1,14 +1,24 @@
 /** 报价单 */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.scss";
-import { Input, Table } from "antd";
+import { Button, Input } from "antd";
 import EditorInfo from "./component/EdiotrInfo";
-import { tableColumns, DataType, mockData } from "./constant";
 
 const PriceSheet = () => {
   const [searchValue, setSearchValue] = useState<string>("");
-  const [infoVisable, setInfoVisable] = useState(false);
-  const [currentInfo, setCurrentInfo] = useState<DataType | undefined>();
+  const [currentInfo, setCurrentInfo] = useState();
+
+  useEffect(() => {
+    if (searchValue) queryData(searchValue);
+  }, [searchValue]);
+
+  /** 接口数据查询 */
+  const queryData = (keyword: string) => {
+    console.log("keyword", keyword);
+    // API.xxx
+    // 数据赋值
+    // setCurrentInfo();
+  };
 
   return (
     <div className="price-sheet-container">
@@ -20,13 +30,10 @@ const PriceSheet = () => {
         />
       </div>
       <div className="price-sheet-body">
-        <Table
-          columns={tableColumns(setInfoVisable,setCurrentInfo) as any}
-          dataSource={mockData}
-        />
+        <EditorInfo currentInfo={currentInfo} />
+        <Button type="primary">提交</Button>
       </div>
       <div className="price-sheet-foot"></div>
-      <EditorInfo infoVisable={infoVisable} setInfoVisable={setInfoVisable} currentInfo={currentInfo} />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import type { GetProp, RadioChangeEvent, TableProps } from "antd";
+import { Input, type GetProp, type RadioChangeEvent, type TableProps } from "antd";
 
 type ColumnsType<T extends object> = GetProp<TableProps<T>, "columns">;
 
@@ -19,114 +19,6 @@ export interface DataType {
   accountNumber: string;
   processingMode: string;
 }
-
-export const tableColumns = (
-  setInfoVisable: (value: boolean) => void,
-  setCurrentInfo: (val: any) => void
-) => {
-  return [
-    {
-      title: "TO",
-      dataIndex: "TO",
-      key: "TO",
-      render: (text, record) => text,
-    },
-    {
-      title: "收件人",
-      dataIndex: "addressee",
-      key: "addressee",
-      render: (text, record) => <div>{text}</div>,
-    },
-    {
-      title: "电话",
-      dataIndex: "phone",
-      key: "phone",
-      render: (text, record) => <div>{text}</div>,
-    },
-    {
-      title: "邮箱",
-      dataIndex: "email",
-      key: "email",
-      render: (text, record) => <div>{text}</div>,
-    },
-    {
-      title: "日期",
-      dataIndex: "date",
-      key: "date",
-      render: (text, record) => <div>{text}</div>,
-    },
-    {
-      title: "备注",
-      dataIndex: "mark",
-      key: "mark",
-      render: (text, record) => <div>{text}</div>,
-    },
-    {
-      title: "发票抬头",
-      dataIndex: "invoiceTitle",
-      key: "invoiceTitle",
-      render: (text, record) => <div>{text}</div>,
-    },
-    {
-      title: "发票邮寄地址",
-      dataIndex: "invoiceMailingAddress",
-      key: "invoiceMailingAddress",
-      render: (text, record) => <div>{text}</div>,
-    },
-    {
-      title: "联系人",
-      dataIndex: "contactPerson",
-      key: "contactPerson",
-      render: (text, record) => <div>{text}</div>,
-    },
-    {
-      title: "联系人电话",
-      dataIndex: "contactNumber",
-      key: "contactNumber",
-      render: (text, record) => <div>{text}</div>,
-    },
-    {
-      title: "纳税人识别号",
-      dataIndex: "taxpayerIdentificationNumber",
-      key: "taxpayerIdentificationNumber",
-      render: (text, record) => <div>{text}</div>,
-    },
-    {
-      title: "开户行",
-      dataIndex: "BankDeposit",
-      key: "BankDeposit",
-      render: (text, record) => <div>{text}</div>,
-    },
-    {
-      title: "账号",
-      dataIndex: "accountNumber",
-      key: "accountNumber",
-      render: (text, record) => <div>{text}</div>,
-    },
-    {
-      title: "处理方式",
-      dataIndex: "processingMode",
-      key: "processingMode",
-      render: (text, record) => <div>{text}</div>,
-    },
-    {
-      title: "操作",
-      key: "action",
-      render: (text, record) => (
-        <div>
-          <a
-            onClick={() => {
-              setInfoVisable(true);
-              setCurrentInfo(record);
-            }}
-          >
-            编辑
-          </a>
-        </div>
-      ),
-    },
-  ] as ColumnsType<DataType>;
-};
 
 export const mockData = [
   {

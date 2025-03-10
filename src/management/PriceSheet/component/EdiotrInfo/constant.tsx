@@ -1,7 +1,10 @@
 import { DataType } from "../../constant";
 
 export interface Props {
-  infoVisable: boolean;
-  setInfoVisable: (val: boolean) => void;
   currentInfo: DataType | undefined;
+}
+
+export const INFO_LAYOUT = {
+  labelCol: {span: 5},
+  wrapperCol: {span: 12}
 }
