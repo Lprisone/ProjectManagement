@@ -1,10 +1,10 @@
 import { DataType } from "../../constant";
 
 export interface Props {
-  currentInfo: DataType | undefined;
+  currentInfo: DataType[] | undefined;
 }
 
 export const INFO_LAYOUT = {
-  labelCol: {span: 5},
-  wrapperCol: {span: 12}
+  labelCol: {span: 3},
+  wrapperCol: {span: 18}
 }

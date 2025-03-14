@@ -15,7 +15,7 @@ export interface DataType {
   contactPerson: string;
   contactNumber: string;
   taxpayerIdentificationNumber: string;
-  BankDeposit: string;
+  bankDeposit: string;
   accountNumber: string;
   processingMode: string;
 }
@@ -34,7 +34,7 @@ export const mockData = [
     contactNumber: "12312321312312321",
     taxpayerIdentificationNumber:
       "12435324565423453213452345677865432134567654323242434334",
-    BankDeposit: "中国银行",
+    bankDeposit: "中国银行",
     accountNumber: "12321321321312",
     processingMode: "邮寄",
   },

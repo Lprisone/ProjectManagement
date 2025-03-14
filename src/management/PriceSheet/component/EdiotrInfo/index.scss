@@ -5,18 +5,37 @@
   overflow-x: hidden;
 
   .info-basic-info {
+    margin-bottom: 10px;
+    width: 100%;
     background-color: #fff;
     padding: 5px;
     border-radius: 8px;
 
     &-values {
+      width: 100%;
+      &-item {
+        width: 50%;
         display: flex;
         justify-content: space-around;
-        flex-wrap: wrap;
+      }
     }
+  }
+
+  .info-invoice-information {
+    margin-bottom: 10px;
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 8px;
+  }
+
+  .info-product-info {
+    margin-bottom: 10px;
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 8px;
   }
 }
 
-.info-container::-webkit-scrollbar{
-    display: none;
+.info-container::-webkit-scrollbar {
+  display: none;
 }
