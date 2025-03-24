@@ -1,0 +1,70 @@
+.flow-container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+
+  .flow-head-statistics-info {
+    height: 200px;
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 16px;
+
+    &-title {
+      font-weight: 700;
+      color: rgba(0, 0, 0, 0.9);
+      line-height: 20px;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .flow-head-statistics-info-box {
+        display: flex;
+        justify-content: space-around;
+        height: 150px;
+
+        .flow-head-statistics-info-item {
+            background-color: aqua;
+            width: 15%;
+            height: 160px;
+        }
+    }
+  }
+
+  .flow-filter {
+    height: 40px;
+    width: 100%;
+    line-height: 40px;
+    border-radius: 8px;
+    padding: 0 16px;
+    background-color: #fff;
+    margin-bottom: 10px;
+
+    .flow-fliter-search {
+      width: 300px;
+      height: 28px;
+    }
+
+    .flow-fliter-picker {
+        margin-left: 20px;
+        height: 28px;
+    }
+  }
+
+  .flow-body {
+    background-color: #fff;
+    border-radius: 8px;
+    width: 100%;
+    height: calc(100% - 355px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  .flow-footer {
+    position: absolute;
+    bottom: 0px;
+    background-color: #fff;
+    width: 100%;
+    height: 52px;
+    border-radius: 8px;
+  }
+}
