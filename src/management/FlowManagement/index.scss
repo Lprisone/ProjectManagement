@@ -18,15 +18,15 @@
     }
 
     .flow-head-statistics-info-box {
-        display: flex;
-        justify-content: space-around;
-        height: 150px;
+      display: flex;
+      justify-content: space-around;
+      height: 150px;
 
-        .flow-head-statistics-info-item {
-            background-color: aqua;
-            width: 15%;
-            height: 160px;
-        }
+      .flow-head-statistics-info-item {
+        background-color: aqua;
+        width: 15%;
+        height: 160px;
+      }
     }
   }
 
@@ -35,18 +35,27 @@
     width: 100%;
     line-height: 40px;
     border-radius: 8px;
-    padding: 0 16px;
     background-color: #fff;
     margin-bottom: 10px;
+    position: relative;
+    padding: 0px;
 
     .flow-fliter-search {
+      margin-left: 16px;
       width: 300px;
       height: 28px;
     }
 
     .flow-fliter-picker {
-        margin-left: 20px;
-        height: 28px;
+      margin-left: 20px;
+      height: 28px;
+    }
+
+    .flow-fliter-btn {
+      position: absolute;
+      right: 16px;
+      top: 5px;
+      height: 28px;
     }
   }
 
@@ -57,6 +66,10 @@
     height: calc(100% - 355px);
     overflow-y: scroll;
     overflow-x: hidden;
+
+    .flow-body-table-action-editor {
+      margin-right: 10px;
+    }
   }
 
   .flow-footer {

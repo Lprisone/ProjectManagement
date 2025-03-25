@@ -14,11 +14,12 @@ import {
 import "./index.scss";
 import PriceSheet from "../PriceSheet";
 import FlowManagement from "../FlowManagement";
+import ProjectManagement from "../ProjectManagement";
 import zhCN from "antd/es/locale/zh_CN"; // 中文语言包
-import dayjs from 'dayjs';
-import 'dayjs/locale/zh-cn'; // 引入 Day.js 的中文语言包
+import dayjs from "dayjs";
+import "dayjs/locale/zh-cn"; // 引入 Day.js 的中文语言包
 
-dayjs.locale('zh-cn'); // 设置 Day.js 的语言为中文
+dayjs.locale("zh-cn"); // 设置 Day.js 的语言为中文
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -35,6 +36,11 @@ const App = () => {
     { key: "flowManagement", icon: <DesktopOutlined />, label: "流水管理" },
     { key: "priceSheet", icon: <PieChartOutlined />, label: "报价表" },
     {
+      key: "projectManagement",
+      icon: <ContainerOutlined />,
+      label: "项目管理",
+    },
+    {
       key: "customerManagement",
       icon: <ContainerOutlined />,
       label: "客户管理",
@@ -47,6 +53,8 @@ const App = () => {
         return <PriceSheet />;
       case "flowManagement":
         return <FlowManagement />;
+      case "projectManagement":
+        return <ProjectManagement />;
       case "customerManagement":
         return <></>;
     }

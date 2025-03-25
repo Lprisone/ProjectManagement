@@ -1,56 +1,50 @@
 import React from "react";
-
-export const mock = [
-  {
-    productNo: "12231213321",
-    company: "ANTD_GROUP",
-    serviceContent: "PAY",
-    projectStatus: "OK",
-    cost: "12000000",
-    price: "1233445845",
-    finishTime: "2025/03/24",
-  },
-];
+import { Popconfirm } from "antd";
+import dayjs from "dayjs";
 
 export const flowColumns = (
   setViewVisable: (val: boolean) => void,
-  setGetInfo: (val: any) => void
+  setGetInfo: (val: any) => void,
+  handleDelete: (val: number[]) => void
 ) => {
   return [
     {
-      title: "产品编号",
-      dataIndex: "productNo",
-      key: "productNo",
+      title: "水单日期",
+      dataIndex: "financialRecordsDate",
+      key: "financialRecordsDate",
+      render: (text: string) => {
+        return dayjs(text)?.format("YYYY-MM-DD");
+      },
     },
     {
-      title: "客户",
-      dataIndex: "company",
-      key: "company",
+      title: "账单金额",
+      dataIndex: "billAmount",
+      key: "billAmount",
     },
     {
-      title: "服务内容",
-      dataIndex: "serviceContent",
-      key: "serviceContent",
+      title: "交易对象",
+      dataIndex: "transactionTarget",
+      key: "transactionTarget",
     },
     {
-      title: "状态",
-      dataIndex: "projectStatus",
-      key: "projectStatus",
+      title: "款项类型",
+      dataIndex: "amountType",
+      key: "amountType",
     },
     {
-      title: "成本",
-      dataIndex: "cost",
-      key: "cost",
+      title: "发票状态",
+      dataIndex: "invoiceStatus",
+      key: "invoiceStatus",
     },
     {
-      title: "价格",
-      dataIndex: "price",
-      key: "price",
+      title: "内容",
+      dataIndex: "content",
+      key: "content",
     },
     {
-      title: "时间",
-      dataIndex: "finishTime",
-      key: "finishTime",
+      title: "进出帐",
+      dataIndex: "inOutAccount",
+      key: "inOutAccount",
     },
     {
       title: "操作",
@@ -64,12 +58,35 @@ export const flowColumns = (
                 setViewVisable(true);
                 setGetInfo(record);
               }}
+              className="flow-body-table-action-editor"
             >
-              查看详情
+              编辑
             </a>
+            <Popconfirm
+              title="是否确认删除该流水信息"
+              onConfirm={() => handleDelete([record?.id])}
+              okText="确定"
+              cancelText="取消"
+            >
+              <a>删除</a>
+            </Popconfirm>
           </div>
         );
       },
     },
   ];
+};
+
+const startOfYear = dayjs().startOf("year").format("YYYY-MM-DD HH:mm:ss");
+const endOfToday = dayjs().endOf("day").format("YYYY-MM-DD HH:mm:ss");
+
+export const initeScoure = {
+  pageNum: 1,
+  pageSize: 10,
+  transactionTarget: undefined,
+  amountType: undefined,
+  invoiceStatu: undefined,
+  inOutAccount: undefined,
+  startDate: startOfYear,
+  endDate: endOfToday,
 };

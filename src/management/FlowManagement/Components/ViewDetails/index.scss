@@ -1,0 +1,16 @@
+.flow-datail-container {
+  .ant-modal-body {
+    .flow-detail-frist-date {
+      width: 300px;
+    }
+    .flow-detail-frist {
+      display: flex;
+      justify-content: space-between;
+
+      .flow-detail-frist-status,
+      .flow-detail-frist-amount {
+        width: 300px;
+      }
+    }
+  }
+}

@@ -1,152 +1,136 @@
 /** 流水查看详情 */
-import React, { useState } from "react";
-import { Modal, Form, Input } from "antd";
+import React, { useEffect } from "react";
+import { Modal, Form, Input, Select, DatePicker, InputNumber } from "antd";
+import { invoiceEnum, checkEnum, formatAmount, parseAmount } from "./constants";
+import dayjs from "dayjs";
+import "./index.scss";
+import { postRequest } from "../../../../utils";
 
 interface Poprs {
   scoure: any;
   viewVisable: boolean;
   setViewVisable: (val: boolean) => void;
+  handleSearch: () => void;
 }
 
+const { Option } = Select;
+const updateUrl = "/financialRecord/saveOrUpdate";
+
 const ViewDetails = (props: Poprs) => {
-  const { scoure, viewVisable, setViewVisable } = props;
+  const { scoure, viewVisable, setViewVisable, handleSearch } = props;
+  const [form] = Form.useForm();
+
+  const handleOk = async () => {
+    const values = await form.validateFields();
+
+    const param = {
+      ...values,
+      billAmount: parseAmount(values?.billAmount?.toString()),
+      financialRecordsDate: dayjs(values.financialRecordsDate)
+        .startOf("day")
+        .format("YYYY-MM-DD HH:mm:ss"),
+      id: scoure?.id || undefined,
+    };
+
+    await postRequest(param, updateUrl);
+    setViewVisable(false);
+    handleSearch();
+  };
+
+  useEffect(() => {
+    form.setFieldsValue({
+      ...scoure,
+      financialRecordsDate: dayjs(scoure?.financialRecordsDate),
+      billAmount: formatAmount(scoure?.billAmount),
+    });
+  }, [scoure]);
+
   return (
     <Modal
+      wrapClassName="flow-datail-container"
       destroyOnClose
-      title={"查看详情"}
+      title={"流水详情"}
       width={900}
       onCancel={() => setViewVisable(false)}
       open={viewVisable}
-      onOk={() => {
-        console.log(">>>okk");
-      }}
+      onOk={handleOk}
     >
-      <Form>
+      <Form form={form}>
         <Form.Item
-          label="产品编号"
-          name="productNo"
+          label="水单日期"
+          name="financialRecordsDate"
+          rules={[{ required: true, message: "请选择水单日期" }]}
+        >
+          <DatePicker className="flow-detail-frist-date" />
+        </Form.Item>
+        <div className="flow-detail-frist">
+          <Form.Item
+            label="账单金额"
+            name="billAmount"
+            rules={[{ required: true, message: "Please input!" }]}
+          >
+            <InputNumber
+              prefix="￥"
+              formatter={(value) => formatAmount(value)}
+              parser={(value) => parseAmount(value)}
+              placeholder="请输入金额"
+              min={0}
+              precision={4}
+              controls={false}
+              className="flow-detail-frist-amount"
+            />
+          </Form.Item>
+          <Form.Item
+            label="发票状态"
+            name="invoiceStatus"
+            rules={[{ required: true, message: "Please input!" }]}
+          >
+            <Select className="flow-detail-frist-status" allowClear>
+              {invoiceEnum.map((item) => {
+                return (
+                  <Option value={item} title={item}>
+                    {item}
+                  </Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
+        </div>
+        <Form.Item
+          label="内容"
+          name="content"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          label="客户"
-          name="company"
+          label="交易对象"
+          name="transactionTarget"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          label="服务内容"
-          name="serviceContent"
+          label="款项类型"
+          name="amountType"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          label="状态"
-          name="projectStatus"
+          label="进出帐"
+          name="inOutAccount"
           rules={[{ required: true, message: "Please input!" }]}
         >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="成本"
-          name="cost"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="价格"
-          name="price"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="时间"
-          name="finishTime"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="首款"
-          name="first"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="尾款"
-          name="last"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="联系人"
-          name="contactPerson"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="销售"
-          name="sales"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="开案"
-          name="caseName"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="给销售"
-          name="salesRecipient"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="给工程师"
-          name="engineerRecipient"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="收款公司"
-          name="paymentCompany"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="补充信息"
-          name="remak"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="付款比例"
-          name="paymentRatio"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="项目归属人"
-          name="projectOwner"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
+          <Select allowClear>
+            {checkEnum.map((item) => {
+              return (
+                <Option value={item} title={item}>
+                  {item}
+                </Option>
+              );
+            })}
+          </Select>
         </Form.Item>
       </Form>
     </Modal>
