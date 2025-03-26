@@ -1,6 +1,6 @@
 /** 编辑信息 */
 import React, { useEffect, useState } from "react";
-import { Form, Input, DatePicker, Select, Col, Row } from "antd";
+import { Form, Input, DatePicker, Select, Col, Row, Switch } from "antd";
 import { Props, INFO_LAYOUT } from "./constant";
 import _ from "lodash";
 import "./index.scss";
@@ -8,45 +8,15 @@ import "./index.scss";
 const { Option } = Select;
 
 const EditorInfo = (props: Props) => {
-  const [form] = Form.useForm();
-  const { currentInfo } = props;
+  const { currentInfo, form } = props;
 
   useEffect(() => {
     if (!_.isEmpty(currentInfo)) {
-      const {
-        TO,
-        addressee,
-        phone,
-        email,
-        date,
-        mark,
-        invoiceTitle,
-        invoiceMailingAddress,
-        contactPerson,
-        contactNumber,
-        taxpayerIdentificationNumber,
-        bankDeposit,
-        accountNumber,
-        processingMode
-      } = currentInfo?.[0] || {};
       form.setFieldsValue({
-        TO,
-        addressee,
-        phone,
-        email,
-        date,
-        mark,
-        invoiceTitle,
-        invoiceMailingAddress,
-        contactPerson,
-        contactNumber,
-        taxpayerIdentificationNumber,
-        bankDeposit,
-        accountNumber,
-        processingMode,
+        ...currentInfo,
       });
     }
-  }, [form, currentInfo]);
+  }, [currentInfo]);
 
   const style: React.CSSProperties = {
     padding: "8px 0",
@@ -63,8 +33,8 @@ const EditorInfo = (props: Props) => {
                 <div style={style}>
                   <Form.Item
                     {...INFO_LAYOUT}
-                    label="TO"
-                    name="TO"
+                    label="to"
+                    name="to"
                     rules={[{ required: true, message: "Please input!" }]}
                   >
                     <Input />
@@ -75,7 +45,7 @@ const EditorInfo = (props: Props) => {
                 <div style={style}>
                   <Form.Item
                     label="收件人"
-                    name="addressee"
+                    name="recipient"
                     rules={[{ required: true, message: "Please input!" }]}
                   >
                     <Input />
@@ -86,7 +56,7 @@ const EditorInfo = (props: Props) => {
                 <div style={style}>
                   <Form.Item
                     label="电话"
-                    name="phone"
+                    name="telephone"
                     rules={[{ required: true, message: "Please input!" }]}
                   >
                     <Input />
@@ -119,7 +89,7 @@ const EditorInfo = (props: Props) => {
                 <div style={style}>
                   <Form.Item
                     label="备注"
-                    name="mark"
+                    name="remark"
                     rules={[{ required: true, message: "Please input!" }]}
                   >
                     <Input />
@@ -148,7 +118,7 @@ const EditorInfo = (props: Props) => {
               <div style={style}>
                 <Form.Item
                   label="发票邮寄地址"
-                  name="invoiceMailingAddress"
+                  name="invoiceAddress"
                   rules={[{ required: true, message: "Please input!" }]}
                 >
                   <Input />
@@ -159,7 +129,7 @@ const EditorInfo = (props: Props) => {
               <div style={style}>
                 <Form.Item
                   label="联系人"
-                  name="contactPerson"
+                  name="invoiceContacts"
                   rules={[{ required: true, message: "Please input!" }]}
                 >
                   <Input />
@@ -170,7 +140,7 @@ const EditorInfo = (props: Props) => {
               <div style={style}>
                 <Form.Item
                   label="联系人电话"
-                  name="contactNumber"
+                  name="contactsTelephone"
                   rules={[{ required: true, message: "Please input!" }]}
                 >
                   <Input />
@@ -181,7 +151,7 @@ const EditorInfo = (props: Props) => {
               <div style={style}>
                 <Form.Item
                   label="纳税人识别号"
-                  name="taxpayerIdentificationNumber"
+                  name="tin"
                   rules={[{ required: true, message: "Please input!" }]}
                 >
                   <Input />
@@ -192,7 +162,7 @@ const EditorInfo = (props: Props) => {
               <div style={style}>
                 <Form.Item
                   label="开户行"
-                  name="bankDeposit"
+                  name="openBank"
                   rules={[{ required: true, message: "Please input!" }]}
                 >
                   <Input />
@@ -203,7 +173,7 @@ const EditorInfo = (props: Props) => {
               <div style={style}>
                 <Form.Item
                   label="账号"
-                  name="accountNumber"
+                  name="bankAccount"
                   rules={[{ required: true, message: "Please input!" }]}
                 >
                   <Input />
@@ -214,10 +184,32 @@ const EditorInfo = (props: Props) => {
               <div style={style}>
                 <Form.Item
                   label="处理方式"
-                  name='processingMode'
+                  name="processingMode"
                   rules={[{ required: true, message: "Please input!" }]}
                 >
                   <Input />
+                </Form.Item>
+              </div>
+            </Col>
+            <Col className="gutter-row" span={7}>
+              <div style={style}>
+                <Form.Item
+                  label="小计"
+                  name="subtotal"
+                  rules={[{ required: true, message: "Please input!" }]}
+                >
+                  <Input />
+                </Form.Item>
+              </div>
+            </Col>
+            <Col className="gutter-row" span={7}>
+              <div style={style}>
+                <Form.Item
+                  label="是否需要发票信息"
+                  name="isSwitch"
+                  rules={[{ required: true, message: "Please input!" }]}
+                >
+                  <Switch checkedChildren="是" unCheckedChildren="否" defaultChecked />
                 </Form.Item>
               </div>
             </Col>
@@ -230,7 +222,7 @@ const EditorInfo = (props: Props) => {
               <div style={style}>
                 <Form.Item
                   label="所需测试/认证服务"
-                  name="mark"
+                  name="service"
                   rules={[{ required: true, message: "Please input!" }]}
                 >
                   <Input />
@@ -241,7 +233,7 @@ const EditorInfo = (props: Props) => {
               <div style={style}>
                 <Form.Item
                   label="测试标准"
-                  name="mark"
+                  name="standard"
                   rules={[{ required: true, message: "Please input!" }]}
                 >
                   <Input />
@@ -252,7 +244,7 @@ const EditorInfo = (props: Props) => {
               <div style={style}>
                 <Form.Item
                   label="产品名称/型号"
-                  name="mark"
+                  name="productName"
                   rules={[{ required: true, message: "Please input!" }]}
                 >
                   <Input />
@@ -263,7 +255,7 @@ const EditorInfo = (props: Props) => {
               <div style={style}>
                 <Form.Item
                   label="这样要求"
-                  name="mark"
+                  name="sampleRequirement"
                   rules={[{ required: true, message: "Please input!" }]}
                 >
                   <Input />
@@ -274,7 +266,7 @@ const EditorInfo = (props: Props) => {
               <div style={style}>
                 <Form.Item
                   label="测试/认证服务周期"
-                  name="mark"
+                  name="servicePeriod"
                   rules={[{ required: true, message: "Please input!" }]}
                 >
                   <Input />
@@ -285,7 +277,7 @@ const EditorInfo = (props: Props) => {
               <div style={style}>
                 <Form.Item
                   label="金额"
-                  name="mark"
+                  name="amount"
                   rules={[{ required: true, message: "Please input!" }]}
                 >
                   <Input />

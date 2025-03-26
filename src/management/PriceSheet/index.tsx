@@ -1,40 +1,65 @@
 /** 报价单 */
 import React, { useEffect, useState } from "react";
 import "./index.scss";
-import { Button, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import EditorInfo from "./component/EdiotrInfo";
 import { jsPDF } from "jspdf";
-import { mockData } from "./constant";
+import { postRequest, downloadPdf } from "src/utils";
+
+const listUrl = "/quotation/createQuotation"; // 查询接口
 
 const PriceSheet = () => {
+  const [form] = Form.useForm();
   const [searchValue, setSearchValue] = useState<string>("");
-  const [currentInfo, setCurrentInfo] = useState(mockData);
+  const [currentInfo, setCurrentInfo] = useState<any>({});
 
   useEffect(() => {
     if (searchValue) queryData(searchValue);
   }, [searchValue]);
 
   /** 接口数据查询 */
-  const queryData = (keyword: string) => {
+  const queryData = async (keyword: string) => {
     console.log("keyword", keyword);
-    // API.xxx
-    // 数据赋值
+    await postRequest({}, listUrl);
     // setCurrentInfo();
   };
 
-  const generatePDF = () => {
-    // 使用jsPDF创建PDF文档
-    let pdf = new jsPDF();
+  const generatePDF = async () => {
+    const values = await form.validateFields();
+    console.log("???", values);
+    const newJsonData = {
+      quotationRecipientVo: {
+        to: values?.to,
+        recipient: values?.recipient,
+        telephone: values?.telephone,
+        date: values?.date,
+        email: values?.email,
+        remark: values?.remark,
+        owner: values?.owner,
+      },
+      quotationServiceVo: {
+        service: values?.service,
+        standard: values?.standard,
+        productName: values?.productName,
+        sampleRequirement: values?.sampleRequirement,
+        servicePeriod: values?.servicePeriod,
+        amount: values?.amount,
+        subtotal: values?.subtotal,
+      },
+      quotationInvoiceVo: {
+        isSwitch: false,
+        invoiceTitle: values?.invoiceTitle,
+        invoiceAddress: values?.invoiceAddress,
+        tin: values?.tin,
+        openBank: values?.openBank,
+        bankAccount: values?.bankAccount,
+        invoiceContacts: values?.invoiceContacts,
+        contactsTelephone: values?.contactsTelephone,
+      },
+      quotationAdditionalInfo: {},
+    };
 
-    // 根据数据生成PDF内容
-    // 这里假设data是一个对象数组，每个对象都有title和description两个字段
-    currentInfo?.forEach((item, index) => {
-      pdf.text(item.phone, 10, (index + 1) * 10); // 设置文本位置
-      pdf.text(item.mark, 15, (index + 1) * 15);
-    });
-
-    // 触发下载
-    pdf.save("generated-document.pdf");
+    await downloadPdf(newJsonData, listUrl);
   };
 
   return (
@@ -47,9 +72,11 @@ const PriceSheet = () => {
         />
       </div>
       <div className="price-sheet-body">
-        <EditorInfo currentInfo={currentInfo as any} />
+        <EditorInfo form={form} currentInfo={currentInfo as any} />
         <div className="generate-btn">
-          <Button type="primary" onClick={()=> generatePDF()}>生成PDF</Button>
+          <Button type="primary" onClick={() => generatePDF()}>
+            生成PDF
+          </Button>
         </div>
       </div>
       <div className="price-sheet-foot"></div>
