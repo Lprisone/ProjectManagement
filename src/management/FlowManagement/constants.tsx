@@ -85,7 +85,7 @@ export const initeScoure = {
   pageSize: 10,
   transactionTarget: undefined,
   amountType: undefined,
-  invoiceStatu: undefined,
+  invoiceStatus: undefined,
   inOutAccount: undefined,
   startDate: startOfYear,
   endDate: endOfToday,

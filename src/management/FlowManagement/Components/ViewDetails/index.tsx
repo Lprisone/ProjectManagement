@@ -4,7 +4,7 @@ import { Modal, Form, Input, Select, DatePicker, InputNumber } from "antd";
 import { invoiceEnum, checkEnum, formatAmount, parseAmount } from "./constants";
 import dayjs from "dayjs";
 import "./index.scss";
-import { postRequest } from "../../../../utils";
+import { postRequest } from "src/utils";
 
 interface Poprs {
   scoure: any;

@@ -4,7 +4,7 @@
   position: relative;
 
   .flow-head-statistics-info {
-    height: 200px;
+    height: 150px;
     background-color: #fff;
     margin-bottom: 10px;
     padding: 16px;
@@ -20,11 +20,13 @@
     .flow-head-statistics-info-box {
       display: flex;
       justify-content: space-around;
+      flex-direction: column;
       height: 150px;
 
       .flow-head-statistics-info-item {
-        background-color: aqua;
-        width: 15%;
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
         height: 160px;
       }
     }
@@ -39,6 +41,21 @@
     margin-bottom: 10px;
     position: relative;
     padding: 0px;
+    display: flex;
+    align-items: center;
+
+    .flow-fliter-item {
+      margin-bottom: 0;
+      margin: 0 10px;
+    }
+
+    .flow-fliter-action {
+      height: 28px;
+    }
+
+    .flow-fliter-status {
+      width: 200px;
+    }
 
     .flow-fliter-search {
       margin-left: 16px;
@@ -63,7 +80,7 @@
     background-color: #fff;
     border-radius: 8px;
     width: 100%;
-    height: calc(100% - 355px);
+    height: calc(100% - 310px);
     overflow-y: scroll;
     overflow-x: hidden;
 
@@ -79,5 +96,11 @@
     width: 100%;
     height: 52px;
     border-radius: 8px;
+
+    &-page {
+      position: absolute;
+      right: 16px;
+      top: 7px;
+    }
   }
 }

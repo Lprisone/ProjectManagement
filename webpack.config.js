@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.tsx', // 如果不使用 TypeScript，改为 './src/index.js'
+  entry: './src/index.tsx', // 入口文件
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -35,7 +35,10 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'], // 支持的扩展名
+    alias: {
+      src: path.resolve(__dirname, 'src'), // 配置 src 路径别名
+    },
   },
   devServer: {
     static: {
