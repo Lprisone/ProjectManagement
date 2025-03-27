@@ -26,7 +26,7 @@ const EditorInfo = (props: Props) => {
     <Form form={form}>
       <div className="info-container">
         <div className="info-basic-info">
-          <h3>基本信息</h3>
+          <div className="info-basic-info-title">基本信息</div>
           <div className="info-basic-info-values">
             <Row gutter={[16, 24]}>
               <Col className="gutter-row" span={7}>
@@ -100,7 +100,7 @@ const EditorInfo = (props: Props) => {
           </div>
         </div>
         <div className="info-invoice-information">
-          <h3>发票信息</h3>
+          <div className="info-invoice-information-title">发票信息</div>
           <Row gutter={[16, 24]}>
             <Col className="gutter-row" span={7}>
               <div style={style}>
@@ -209,14 +209,18 @@ const EditorInfo = (props: Props) => {
                   name="isSwitch"
                   rules={[{ required: true, message: "Please input!" }]}
                 >
-                  <Switch checkedChildren="是" unCheckedChildren="否" defaultChecked />
+                  <Switch
+                    checkedChildren="是"
+                    unCheckedChildren="否"
+                    defaultChecked
+                  />
                 </Form.Item>
               </div>
             </Col>
           </Row>
         </div>
         <div className="info-product-info">
-          <h3>产品信息</h3>
+          <div className="info-product-info-title">产品信息</div>
           <Row gutter={[16, 24]}>
             <Col className="gutter-row" span={7}>
               <div style={style}>

@@ -1,33 +1,39 @@
-.price-sheet-container {
+.sheet-container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+
+  .sheet-filter {
+    height: 40px;
     width: 100%;
-    height: 100%;
-    
-    .price-sheet-head {
-        height: 50px;
-        width: 100%;
-        background-color: #fff;
-        display: flex;
-        align-items: center;
-        border-radius: 8px;
+    line-height: 40px;
+    border-radius: 8px;
+    background-color: #fff;
+    margin-bottom: 10px;
+    position: relative;
+    padding: 0px;
+    display: flex;
+    align-items: center;
+  }
 
-        &-search {
-            width: 200px;
-            height: 28px;
-            margin-left: 16px;
-        }
-    }
+  .sheet-body {
+    background-color: #fff;
+    border-radius: 8px;
+    width: 100%;
+    height: calc(100% - 135px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
 
-    .price-sheet-body {
-        width: 100%;
-        height: 100%;
-        margin-top: 10px;
-
-        .generate-btn {
-            background-color: #fff;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    }
+  .sheet-footer {
+    position: absolute;
+    bottom: 18px;
+    background-color: #fff;
+    width: 100%;
+    height: 52px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

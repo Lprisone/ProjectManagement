@@ -26,7 +26,6 @@ const PriceSheet = () => {
 
   const generatePDF = async () => {
     const values = await form.validateFields();
-    console.log("???", values);
     const newJsonData = {
       quotationRecipientVo: {
         to: values?.to,
@@ -63,23 +62,22 @@ const PriceSheet = () => {
   };
 
   return (
-    <div className="price-sheet-container">
-      <div className="price-sheet-head">
+    <div className="sheet-container">
+      <div className="sheet-filter">
         <Input
           onChange={(e) => setSearchValue(e?.target?.value)}
           className="price-sheet-head-search"
           placeholder="请输入关键字"
         />
       </div>
-      <div className="price-sheet-body">
+      <div className="sheet-body">
         <EditorInfo form={form} currentInfo={currentInfo as any} />
-        <div className="generate-btn">
-          <Button type="primary" onClick={() => generatePDF()}>
-            生成PDF
-          </Button>
-        </div>
       </div>
-      <div className="price-sheet-foot"></div>
+      <div className="sheet-footer">
+        <Button type="primary" onClick={() => generatePDF()}>
+          生成PDF
+        </Button>
+      </div>
     </div>
   );
 };
