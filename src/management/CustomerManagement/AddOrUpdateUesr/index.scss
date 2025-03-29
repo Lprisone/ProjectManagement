@@ -1,0 +1,47 @@
+.client-datail-container {
+  .ant-modal-body {
+    .client-basic-info {
+      &-title {
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.9);
+        line-height: 20px;
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
+
+      .client-detail-frist {
+        display: flex;
+        justify-content: space-between;
+
+        .client-basic-info-input {
+          width: 200px;
+        }
+        .client-basic-info-input-val {
+          width: 350px;
+        }
+      }
+    }
+
+    .client-detail-info {
+      &-title {
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.9);
+        line-height: 20px;
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
+
+      .client-detail-frist {
+        display: flex;
+        justify-content: space-between;
+
+        .client-basic-info-input {
+          width: 200px;
+        }
+        .client-basic-info-input-val {
+          width: 350px;
+        }
+      }
+    }
+  }
+}

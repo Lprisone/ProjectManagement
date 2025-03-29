@@ -15,6 +15,7 @@ import "./index.scss";
 import PriceSheet from "src/management/PriceSheet";
 import FlowManagement from "src/management/FlowManagement";
 import ProjectManagement from "src/management/ProjectManagement";
+import CustomerManagement from 'src/management/CustomerManagement';
 import zhCN from "antd/es/locale/zh_CN"; // 中文语言包
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn"; // 引入 Day.js 的中文语言包
@@ -26,7 +27,7 @@ type MenuItem = Required<MenuProps>["items"][number];
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [componentField, setComponentField] =
-    useState<string>("priceSheet"); // 组件转换
+    useState<string>("customerManagement"); // 组件转换
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -56,7 +57,7 @@ const App = () => {
       case "projectManagement":
         return <ProjectManagement />;
       case "customerManagement":
-        return <></>;
+        return <CustomerManagement />;
     }
   };
 
@@ -64,8 +65,8 @@ const App = () => {
     <div className="management-container">
       <div className="management-container-menu">
         <Menu
-          defaultSelectedKeys={["priceSheet"]}
-          defaultOpenKeys={["priceSheet"]}
+          defaultSelectedKeys={["customerManagement"]}
+          defaultOpenKeys={["customerManagement"]}
           mode="inline"
           theme="dark"
           inlineCollapsed={collapsed}
