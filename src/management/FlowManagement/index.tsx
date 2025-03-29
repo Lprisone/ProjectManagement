@@ -190,6 +190,7 @@ const FlowManagement = () => {
             onChange={(e) => {
               handleSetFilter("inOutAccount", e);
             }}
+            placeholder="请选择进出账"
             allowClear
           >
             {checkEnum.map((item) => {
