@@ -1,10 +1,11 @@
 /**客户管理 */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button, Input, Pagination, Table } from "antd";
 import "./index.scss";
 import { clientColumns, initUserValue, defaultValue } from "./constants";
 import { postRequest } from "src/utils";
 import ViewUser from "./AddOrUpdateUesr";
+import _ from "lodash";
 
 const userDetailUrl = "/user/selectUser";
 
@@ -16,13 +17,16 @@ const CustomerManagement = () => {
   const [userInfo, setUserInfo] = useState<any>({});
   const [tableScoure, setTableScoure] = useState<any>();
 
-  const handleDetail = async () => {
-    const param = {
-      ...headFilter,
-    };
-    const res = await postRequest(param, userDetailUrl);
-    setTableScoure(res);
-  };
+  const handleDetail = useCallback(
+    _.debounce(async () => {
+      const param = {
+        ...headFilter,
+      };
+      const res = await postRequest(param, userDetailUrl);
+      setTableScoure(res);
+    }, 500),
+    [headFilter]
+  );
 
   useEffect(() => {
     handleDetail();
@@ -31,7 +35,45 @@ const CustomerManagement = () => {
   return (
     <div className="client-container">
       <div className="client-filter">
-        <Input className="client-fliter-search" placeholder="请输入关键字" />
+        <div className="client-filter-item">
+          <span>联系人：</span>
+          <Input
+            className="client-fliter-search"
+            placeholder="请输入联系人"
+            onChange={(e) => {
+              setHeadFilter({
+                ...headFilter,
+                contactPerson: e?.target?.value,
+              });
+            }}
+          />
+        </div>
+        <div className="client-filter-item">
+          <span>所属公司：</span>
+          <Input
+            className="client-fliter-search"
+            placeholder="请输入所属公司"
+            onChange={(e) => {
+              setHeadFilter({
+                ...headFilter,
+                company: e?.target?.value,
+              });
+            }}
+          />
+        </div>
+        <div className="client-filter-item">
+          <span>用户负责人：</span>
+          <Input
+            className="client-fliter-search"
+            placeholder="请输入用户负责人"
+            onChange={(e) => {
+              setHeadFilter({
+                ...headFilter,
+                userManager: e?.target?.value,
+              });
+            }}
+          />
+        </div>
         <Button
           className="client-fliter-add-btn"
           type="primary"
