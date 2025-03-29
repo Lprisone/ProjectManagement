@@ -27,7 +27,7 @@ type MenuItem = Required<MenuProps>["items"][number];
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [componentField, setComponentField] =
-    useState<string>("customerManagement"); // 组件转换
+    useState<string>("projectManagement"); // 组件转换
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -65,8 +65,8 @@ const App = () => {
     <div className="management-container">
       <div className="management-container-menu">
         <Menu
-          defaultSelectedKeys={["customerManagement"]}
-          defaultOpenKeys={["customerManagement"]}
+          defaultSelectedKeys={["projectManagement"]}
+          defaultOpenKeys={["projectManagement"]}
           mode="inline"
           theme="dark"
           inlineCollapsed={collapsed}

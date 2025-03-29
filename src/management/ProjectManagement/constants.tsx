@@ -1,16 +1,13 @@
 import React from "react";
 
-export const mock = [
-  {
-    productNo: "12231213321",
-    company: "ANTD_GROUP",
-    serviceContent: "PAY",
-    projectStatus: "OK",
-    cost: "12000000",
-    price: "1233445845",
-    finishTime: "2025/03/24",
-  },
-];
+export const initeScoure = {
+  pageNum: 1,
+  pageSize: 10,
+  transactionTarget: undefined,
+  amountType: undefined,
+  invoiceStatus: undefined,
+  inOutAccount: undefined,
+};
 
 export const projectColumns = (
   setViewVisable: (val: boolean) => void,
@@ -43,14 +40,19 @@ export const projectColumns = (
       key: "cost",
     },
     {
-      title: "价格",
+      title: "售价",
       dataIndex: "price",
       key: "price",
     },
     {
-      title: "时间",
+      title: "开案时间",
       dataIndex: "finishTime",
-      key: "finishTime",
+      key: "startTime",
+    },
+    {
+      title: "结案时间",
+      dataIndex: "finishTime",
+      key: "finishTime ",
     },
     {
       title: "操作",
@@ -65,7 +67,7 @@ export const projectColumns = (
                 setGetInfo(record);
               }}
             >
-              查看详情
+              编辑
             </a>
           </div>
         );

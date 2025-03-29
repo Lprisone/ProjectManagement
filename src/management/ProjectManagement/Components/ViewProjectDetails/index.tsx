@@ -1,4 +1,4 @@
-/** 流水查看详情 */
+/**项目管理详情 */
 import React, { useState } from "react";
 import { Modal, Form, Input } from "antd";
 
