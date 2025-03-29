@@ -12,9 +12,9 @@ import {
   PieChartOutlined,
 } from "@ant-design/icons";
 import "./index.scss";
-import PriceSheet from "../PriceSheet";
-import FlowManagement from "../FlowManagement";
-import ProjectManagement from "../ProjectManagement";
+import PriceSheet from "src/management/PriceSheet";
+import FlowManagement from "src/management/FlowManagement";
+import ProjectManagement from "src/management/ProjectManagement";
 import zhCN from "antd/es/locale/zh_CN"; // 中文语言包
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn"; // 引入 Day.js 的中文语言包

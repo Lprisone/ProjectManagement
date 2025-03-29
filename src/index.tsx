@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client'; // 使用新的 createRoot API
-import App from './management/Menu/index';
+import App from 'src/Menu';
 
 // 获取根 DOM 元素
 const rootElement = document.getElementById('root');
