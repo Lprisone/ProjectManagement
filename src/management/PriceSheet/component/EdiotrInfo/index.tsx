@@ -1,6 +1,18 @@
 /** 编辑信息 */
 import React, { useEffect, useState } from "react";
-import { Form, Input, DatePicker, Select, Col, Row, Switch } from "antd";
+import {
+  Form,
+  Input,
+  DatePicker,
+  Select,
+  Col,
+  Row,
+  Switch,
+  Upload,
+  Button,
+} from "antd";
+import type { UploadFile } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import { Props, INFO_LAYOUT } from "./constant";
 import _ from "lodash";
 import "./index.scss";
@@ -32,7 +44,6 @@ const EditorInfo = (props: Props) => {
               <Col className="gutter-row" span={7}>
                 <div style={style}>
                   <Form.Item
-                    {...INFO_LAYOUT}
                     label="to"
                     name="to"
                     rules={[{ required: true, message: "Please input!" }]}
@@ -290,6 +301,14 @@ const EditorInfo = (props: Props) => {
             </Col>
           </Row>
         </div>
+        <Upload
+          action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+          listType="picture"
+        >
+          <Button type="primary" icon={<UploadOutlined />}>
+            上传图片
+          </Button>
+        </Upload>
       </div>
     </Form>
   );
