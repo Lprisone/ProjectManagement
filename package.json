@@ -26,8 +26,7 @@
     "lodash": "^4.17.21",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^6.30.0",
-    "svelte-spa-router": "^4.0.1"
+    "react-router-dom": "^6.30.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.9",
