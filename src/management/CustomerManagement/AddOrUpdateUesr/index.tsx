@@ -118,16 +118,30 @@ const ViewUser = (props: Poprs) => {
             <Form.Item
               label="用户等级"
               name="user_level"
-              rules={[{ required: true, message: "Please input!" }]}
+              rules={[
+                { required: true, message: "请输入用户等级!" },
+                { pattern: /^[0-9]*$/, message: "用户等级必须是数字!" },
+              ]}
             >
-              <Input className="client-basic-info-input" />
+              <Input
+                className="client-basic-info-input"
+                type="number"
+                placeholder="请输入用户等级"
+              />
             </Form.Item>
             <Form.Item
               label="年龄"
               name="userAge"
-              rules={[{ required: true, message: "Please input!" }]}
+              rules={[
+                { required: true, message: "请输入年龄!" },
+                { pattern: /^[0-9]*$/, message: "年龄必须是数字!" },
+              ]}
             >
-              <Input className="client-basic-info-input" />
+              <Input
+                className="client-basic-info-input"
+                type="number"
+                placeholder="请输入年龄"
+              />
             </Form.Item>
             <Form.Item
               label="电话"
