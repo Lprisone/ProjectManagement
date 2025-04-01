@@ -7,7 +7,12 @@ export const initeScoure = {
   amountType: undefined,
   invoiceStatus: undefined,
   inOutAccount: undefined,
+  productNo: undefined,
+  projectOwner: undefined,
+  paymentRatio: undefined,
 };
+
+export const paymentRatio = ["全款", "非全款"];
 
 export const projectColumns = (
   setViewVisable: (val: boolean) => void,
