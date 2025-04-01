@@ -1,23 +1,9 @@
 /** 编辑信息 */
-import React, { useEffect, useState } from "react";
-import {
-  Form,
-  Input,
-  DatePicker,
-  Select,
-  Col,
-  Row,
-  Switch,
-  Upload,
-  Button,
-} from "antd";
-import type { UploadFile } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import React, { useEffect } from "react";
+import { Form, Input, Col, Row, Switch } from "antd";
 import { Props, INFO_LAYOUT } from "./constant";
 import _ from "lodash";
 import "./index.scss";
-
-const { Option } = Select;
 
 const EditorInfo = (props: Props) => {
   const { currentInfo, form } = props;
@@ -301,14 +287,6 @@ const EditorInfo = (props: Props) => {
             </Col>
           </Row>
         </div>
-        <Upload
-          action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-          listType="picture"
-        >
-          <Button type="primary" icon={<UploadOutlined />}>
-            上传图片
-          </Button>
-        </Upload>
       </div>
     </Form>
   );
