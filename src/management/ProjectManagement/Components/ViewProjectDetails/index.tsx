@@ -23,7 +23,7 @@ const ViewProjectDetails = (props: Poprs) => {
     >
       <Form>
         <Form.Item
-          label="产品编号"
+          label="项目编号"
           name="productNo"
           rules={[{ required: true, message: "Please input!" }]}
         >
@@ -58,29 +58,22 @@ const ViewProjectDetails = (props: Poprs) => {
           <Input />
         </Form.Item>
         <Form.Item
-          label="价格"
+          label="售价"
           name="price"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          label="时间"
+          label="开案时间"
+          name="startTime"
+          rules={[{ required: true, message: "Please input!" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="结案时间"
           name="finishTime"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="首款"
-          name="first"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="尾款"
-          name="last"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />
@@ -93,36 +86,22 @@ const ViewProjectDetails = (props: Poprs) => {
           <Input />
         </Form.Item>
         <Form.Item
-          label="销售"
-          name="sales"
+          label="分包方"
+          name="subcontractorName"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          label="开案"
-          name="caseName"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="给销售"
-          name="salesRecipient"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="给工程师"
-          name="engineerRecipient"
+          label="分包方联系人"
+          name="subcontractorPerson"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           label="收款公司"
-          name="paymentCompany"
+          name="payeeCompany"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />
@@ -144,6 +123,34 @@ const ViewProjectDetails = (props: Poprs) => {
         <Form.Item
           label="项目归属人"
           name="projectOwner"
+          rules={[{ required: true, message: "Please input!" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="项目支出(分包方)"
+          name="projectCostSubcon"
+          rules={[{ required: true, message: "Please input!" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="项目支出(工程师)"
+          name="projectCostEngineer"
+          rules={[{ required: true, message: "Please input!" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="项目支出(项目归属人)"
+          name="projectCostOwner"
+          rules={[{ required: true, message: "Please input!" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="项目利润"
+          name="projectNetProfit"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />

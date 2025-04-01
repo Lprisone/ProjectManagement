@@ -1,6 +1,10 @@
 import React from "react";
 import dayjs from "dayjs";
 
+export interface Iprops {
+  detailScoure: any;
+}
+
 export const childColumns = () => {
   return [
     {

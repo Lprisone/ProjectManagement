@@ -5,9 +5,14 @@ import dayjs from "dayjs";
 export const flowColumns = (
   setViewVisable: (val: boolean) => void,
   setGetInfo: (val: any) => void,
-  handleDelete: (val: number[]) => void
+  handleDelete: (val: number[]) => void,
 ) => {
   return [
+    {
+      title: "商品编号",
+      dataIndex: "projectNo",
+      key: "projectNo",
+    },
     {
       title: "水单日期",
       dataIndex: "financialRecordsDate",

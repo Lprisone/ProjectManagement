@@ -82,41 +82,12 @@ const ViewUser = (props: Poprs) => {
               />
             </Form.Item>
           </div>
-          <div className="client-detail-frist">
-            <Form.Item
-              label="给销售"
-              name="salesRecipient"
-              rules={[{ required: true, message: "Please input!" }]}
-            >
-              <Input
-                placeholder="请输入内容"
-                className="client-basic-info-input-val"
-              />
-            </Form.Item>
-            <Form.Item
-              label="给工程师"
-              name="engineerRecipient"
-              rules={[{ required: true, message: "Please input!" }]}
-            >
-              <Input
-                placeholder="请输入内容"
-                className="client-basic-info-input-val"
-              />
-            </Form.Item>
-          </div>
           <Form.Item
             label="所属公司"
             name="company"
             rules={[{ required: true, message: "Please input!" }]}
           >
             <Input placeholder="请输入所属公司" />
-          </Form.Item>
-          <Form.Item
-            label="收款公司"
-            name="paymentCompany"
-            rules={[{ required: true, message: "Please input!" }]}
-          >
-            <Input placeholder="请输入收款公司" />
           </Form.Item>
           <Form.Item
             label="开案"

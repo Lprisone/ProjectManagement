@@ -11,13 +11,20 @@ interface Poprs {
   viewVisable: boolean;
   setViewVisable: (val: boolean) => void;
   handleSearch: () => void;
+  searchStatistics: () => void;
 }
 
 const { Option } = Select;
 const updateUrl = "/financialRecord/saveOrUpdate";
 
 const ViewDetails = (props: Poprs) => {
-  const { scoure, viewVisable, setViewVisable, handleSearch } = props;
+  const {
+    scoure,
+    viewVisable,
+    setViewVisable,
+    handleSearch,
+    searchStatistics,
+  } = props;
   const [form] = Form.useForm();
 
   const handleOk = async () => {
@@ -30,11 +37,13 @@ const ViewDetails = (props: Poprs) => {
         .startOf("day")
         .format("YYYY-MM-DD HH:mm:ss"),
       id: scoure?.id || undefined,
+      projectNo: scoure?.projectNo,
     };
 
     await postRequest(param, updateUrl);
     setViewVisable(false);
     handleSearch();
+    searchStatistics();
   };
 
   useEffect(() => {

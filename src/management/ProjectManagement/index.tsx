@@ -4,6 +4,7 @@ import { Input, Table, DatePicker, Pagination } from "antd";
 import "./index.scss";
 import { initeScoure, projectColumns } from "./constants";
 import ViewProjectDetails from "./Components/ViewProjectDetails";
+import FlowDeatil from './Components/FlowDetail';
 
 const { RangePicker } = DatePicker;
 
@@ -37,11 +38,11 @@ const ProjectManagement = () => {
         <Table
           dataSource={mock}
           columns={projectColumns(setViewVisable, setGetInfo)}
-          // expandable={{
-          //   expandedRowRender: (record) => childTable(record),
-          //   onExpandedRowsChange: (expandedRows) =>
-          //     console.log("e", expandedRows),
-          // }}
+          expandable={{
+            expandedRowRender: (record) => <FlowDeatil detailScoure={[]} />,
+            onExpandedRowsChange: (expandedRows) =>
+              console.log("e", expandedRows),
+          }}
           pagination={false}
         />
       </div>

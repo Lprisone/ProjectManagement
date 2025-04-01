@@ -37,6 +37,7 @@ const FlowManagement = () => {
   const handleDelete = async (ids: number[]) => {
     await postRequest(ids, querDeletesUrl);
     searchDeatil();
+    searchStatistics();
   };
 
   const searchDeatil = useCallback(
@@ -239,6 +240,7 @@ const FlowManagement = () => {
         viewVisable={viewVisable}
         setViewVisable={setViewVisable}
         handleSearch={searchDeatil}
+        searchStatistics={searchStatistics}
       />
     </div>
   );
