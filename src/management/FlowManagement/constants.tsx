@@ -1,15 +1,29 @@
 import React from "react";
-import { Popconfirm } from "antd";
+import { Popconfirm, Tooltip } from "antd";
 import dayjs from "dayjs";
+import { AppstoreTwoTone } from "@ant-design/icons";
 
 export const flowColumns = (
   setViewVisable: (val: boolean) => void,
   setGetInfo: (val: any) => void,
   handleDelete: (val: number[]) => void,
+  handleGroup: () => void
 ) => {
   return [
     {
-      title: "商品编号",
+      title: () => {
+        return (
+          <>
+            商品编号
+            <Tooltip title="分组">
+              <AppstoreTwoTone
+                className="flow-table-group"
+                onClick={handleGroup}
+              />
+            </Tooltip>
+          </>
+        );
+      },
       dataIndex: "projectNo",
       key: "projectNo",
     },

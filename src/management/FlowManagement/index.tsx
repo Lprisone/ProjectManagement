@@ -34,6 +34,18 @@ const FlowManagement = () => {
   const [headFilter, setHeadFilter] = useState<any>({ ...initeScoure }); // 初始化参数
   const [statisticalInfo, setStatisticalInfo] = useState<any>({}); // 统计信息
 
+  const handleGroup = useCallback(
+    _.debounce(async () => {
+      const param = {
+        ...headFilter,
+        groupBy: "projectNo",
+      };
+      const res = await postRequest(param, queryDetailsUrl);
+      setFlowSource(res?.data);
+    }, 300),
+    [headFilter]
+  );
+
   const handleDelete = async (ids: number[]) => {
     await postRequest(ids, querDeletesUrl);
     searchDeatil();
@@ -217,7 +229,12 @@ const FlowManagement = () => {
       <div className="flow-body">
         <Table
           dataSource={flowSource?.financialRecordVos}
-          columns={flowColumns(setViewVisable, setGetInfo, handleDelete)}
+          columns={flowColumns(
+            setViewVisable,
+            setGetInfo,
+            handleDelete,
+            handleGroup
+          )}
           pagination={false}
         />
       </div>
