@@ -8,6 +8,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
+    publicPath: '/yitong-pro/insights/'
   },
   module: {
     rules: [
@@ -56,10 +57,14 @@ module.exports = {
     port: 9000,
     hot: true,
     open: true,
+    historyApiFallback: {
+      index: "/index.html", // 确保所有路径都重定向到 index.html
+    }, 
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./public/index.html",
+      publicPath: '/yitong-pro/insights/', // 如果需要的话，可以在这里指定公共路径
     }),
     // 新增插件，复制 public 目录到 dist
     new CopyPlugin({
