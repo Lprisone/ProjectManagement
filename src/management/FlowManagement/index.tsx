@@ -8,6 +8,7 @@ import {
   Form,
   Pagination,
   Select,
+  Popconfirm,
 } from "antd";
 import "./index.scss";
 import { flowColumns, initeScoure } from "./constants";
@@ -33,6 +34,7 @@ const FlowManagement = () => {
   const [flowSource, setFlowSource] = useState<any>([]);
   const [headFilter, setHeadFilter] = useState<any>({ ...initeScoure }); // 初始化参数
   const [statisticalInfo, setStatisticalInfo] = useState<any>({}); // 统计信息
+  const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
 
   const handleGroup = useCallback(
     _.debounce(async () => {
@@ -51,6 +53,12 @@ const FlowManagement = () => {
     searchDeatil();
     searchStatistics();
   };
+
+  const handleBatchDelete = async() => {
+    await postRequest(selectedKeys, querDeletesUrl);
+    searchDeatil();
+    searchStatistics();
+  }
 
   const searchDeatil = useCallback(
     _.debounce(async () => {
@@ -235,10 +243,19 @@ const FlowManagement = () => {
             handleDelete,
             handleGroup
           )}
+          rowKey={"id"}
+          rowSelection={{
+            onChange: (e) => setSelectedKeys(e),
+          }}
           pagination={false}
         />
       </div>
       <div className="flow-footer">
+        <div className="flow-footer-action">
+          <Popconfirm title="是否确定删除" onConfirm={handleBatchDelete}>
+            <Button>批量删除</Button>
+          </Popconfirm>
+        </div>
         <div className="flow-footer-page">
           <Pagination
             size="small"
@@ -247,6 +264,7 @@ const FlowManagement = () => {
             pageSize={headFilter?.pageSize}
             current={headFilter?.page}
             onChange={(pageNum, pageSize) => {
+              setSelectedKeys([]);
               setHeadFilter({ ...headFilter, pageSize, pageNum });
             }}
           />
