@@ -1,27 +1,34 @@
 /**项目管理详情 */
 import React, { useState } from "react";
 import { Modal, Form, Input } from "antd";
+import form from "antd/es/form";
 
 interface Poprs {
   scoure: any;
   viewVisable: boolean;
   setViewVisable: (val: boolean) => void;
+  handleAddOrUpdate: (val: any) => void;
 }
 
 const ViewProjectDetails = (props: Poprs) => {
-  const { scoure, viewVisable, setViewVisable } = props;
+  const [form] = Form.useForm();
+  const { scoure, viewVisable, setViewVisable, handleAddOrUpdate } = props;
+
+  const handleOk = async () => {
+    const values = await form.validateFields();
+    handleAddOrUpdate(values)
+  };
+
   return (
     <Modal
       destroyOnClose
-      title={"查看详情"}
+      title={"项目详情"}
       width={900}
       onCancel={() => setViewVisable(false)}
       open={viewVisable}
-      onOk={() => {
-        console.log(">>>okk");
-      }}
+      onOk={handleOk}
     >
-      <Form>
+      <Form form={form}>
         <Form.Item
           label="项目编号"
           name="productNo"

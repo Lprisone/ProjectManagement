@@ -43,6 +43,10 @@
     align-items: center;
     position: relative;
 
+    &-picker {
+      margin-left: 16px;
+    }
+
     .project-filter-item {
       margin-left: 16px;
     }

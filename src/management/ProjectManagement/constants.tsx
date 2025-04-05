@@ -1,4 +1,8 @@
+import dayjs from "dayjs";
 import React from "react";
+
+const startOfYear = dayjs().startOf("year").format("YYYY-MM-DD HH:mm:ss");
+const endOfToday = dayjs().endOf("day").format("YYYY-MM-DD HH:mm:ss");
 
 export const initeScoure = {
   pageNum: 1,
@@ -10,6 +14,8 @@ export const initeScoure = {
   productNo: undefined,
   projectOwner: undefined,
   paymentRatio: undefined,
+  startDate: startOfYear,
+  endDate: endOfToday,
 };
 
 export const paymentRatio = ["全款", "非全款"];

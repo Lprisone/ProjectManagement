@@ -29,19 +29,45 @@ export async function postRequest(parambody: any, requestUrl: any) {
 }
 
 // GET请求
-export async function getRequest() {
+export async function getRequest(paramBody: any, requestUrl: string) {
   try {
-    const response = await fetch(
-      `${API_BASE_URL}/financialRecord/getFinancialRecord`
-    );
-    if (!response.ok) throw new Error("Network response was not ok");
+    // 将参数对象转换为查询字符串
+    const queryParams = new URLSearchParams(paramBody).toString();
+    const url = `${API_BASE_URL}${requestUrl}?${queryParams}`;
+
+    console.log("Request URL:", url); // 打印完整的 URL
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // 检查响应状态码
+    if (!response.ok) {
+      const errorText = await response.text(); // 获取错误信息
+      throw new Error(
+        `Network response was not ok (${response.status}): ${errorText}`
+      );
+    }
+
+    // 检查响应内容类型
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      throw new Error("Response is not JSON");
+    }
+
+    // 解析 JSON 数据
     const data = await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
+    throw error; // 抛出错误以便调用者处理
   }
 }
 
+// PDF
 export const downloadPdf = async (parambody: any, requestUrl: any) => {
   try {
     // 发送 POST 请求，将 JSON 数据传递给后端
