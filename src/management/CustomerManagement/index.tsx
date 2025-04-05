@@ -1,6 +1,6 @@
 /**客户管理 */
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Input, Pagination, Table } from "antd";
+import { Button, Input, Pagination, Table, Popconfirm } from "antd";
 import "./index.scss";
 import { clientColumns, initUserValue, defaultValue } from "./constants";
 import { postRequest } from "src/utils";
@@ -8,6 +8,7 @@ import ViewUser from "./AddOrUpdateUesr";
 import _ from "lodash";
 
 const userDetailUrl = "/user/selectUser";
+const deleteUrl = "/user/deleteUserList";
 
 const CustomerManagement = () => {
   const [headFilter, setHeadFilter] = useState<defaultValue>({
@@ -16,6 +17,7 @@ const CustomerManagement = () => {
   const [userVisable, setUserVisable] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<any>({});
   const [tableScoure, setTableScoure] = useState<any>();
+  const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
 
   const handleDetail = useCallback(
     _.debounce(async () => {
@@ -31,6 +33,11 @@ const CustomerManagement = () => {
   useEffect(() => {
     handleDetail();
   }, [headFilter]);
+
+  const handlBatchDelete = async () => {
+    await postRequest(selectedKeys, deleteUrl);
+    handleDetail();
+  };
 
   return (
     <div className="client-container">
@@ -86,10 +93,19 @@ const CustomerManagement = () => {
         <Table
           dataSource={tableScoure?.data?.userVoList || []}
           columns={clientColumns(setUserVisable, setUserInfo)}
+          rowKey={"id"}
+          rowSelection={{
+            onChange: (e) => setSelectedKeys(e),
+          }}
           pagination={false}
         />
       </div>
       <div className="client-footer">
+        <div className="client-footer-action">
+          <Popconfirm title="是否确定删除" onConfirm={handlBatchDelete}>
+            <Button>批量删除</Button>
+          </Popconfirm>
+        </div>
         <div className="client-footer-page">
           <Pagination
             size="small"
@@ -98,6 +114,7 @@ const CustomerManagement = () => {
             pageSize={headFilter?.pageSize}
             current={headFilter?.pageNum}
             onChange={(pageNum, pageSize) => {
+              setSelectedKeys([]);
               setHeadFilter({ ...headFilter, pageSize, pageNum });
             }}
           />
