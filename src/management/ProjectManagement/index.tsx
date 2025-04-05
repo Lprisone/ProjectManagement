@@ -1,13 +1,16 @@
 /**项目管理 */
 import React, { useState } from "react";
-import { Input, Table, DatePicker, Pagination, Button, Select } from "antd";
+import { Input, Table, DatePicker, Pagination, Button, Select, Popconfirm } from "antd";
 import "./index.scss";
 import { initeScoure, projectColumns, paymentRatio } from "./constants";
 import ViewProjectDetails from "./Components/ViewProjectDetails";
 import FlowDeatil from "./Components/FlowDetail";
+import { postRequest } from "src/utils";
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
+
+const deleteBatchUrl = "/projectRegister/deleteProject";
 
 const mock = [
   {
@@ -20,6 +23,11 @@ const ProjectManagement = () => {
   const [viewVisable, setViewVisable] = useState<boolean>(false);
   const [projectScoure, setProjectScoure] = useState<any>();
   const [headFilter, setHeadFilter] = useState<any>({ ...initeScoure });
+  const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
+
+  const handleBatchDelete = async () => {
+    await postRequest(selectedKeys, deleteBatchUrl);
+  };
 
   return (
     <div className="project-container">
@@ -111,10 +119,19 @@ const ProjectManagement = () => {
             onExpandedRowsChange: (expandedRows) =>
               console.log("e", expandedRows),
           }}
+          rowKey={"id"}
+          rowSelection={{
+            onChange: (e) => setSelectedKeys(e),
+          }}
           pagination={false}
         />
       </div>
       <div className="project-footer">
+        <div className="project-footer-action">
+          <Popconfirm title="是否确定删除" onConfirm={handleBatchDelete}>
+            <Button>批量删除</Button>
+          </Popconfirm>
+        </div>
         <div className="project-footer-page">
           <Pagination
             size="small"
@@ -123,6 +140,7 @@ const ProjectManagement = () => {
             pageSize={headFilter?.pageSize}
             current={headFilter?.page}
             onChange={(pageNum, pageSize) => {
+              setSelectedKeys([]);
               setHeadFilter({ ...headFilter, pageSize, pageNum });
             }}
           />
