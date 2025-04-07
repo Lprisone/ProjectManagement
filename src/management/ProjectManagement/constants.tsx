@@ -1,3 +1,4 @@
+import { Popconfirm } from "antd";
 import dayjs from "dayjs";
 import React from "react";
 
@@ -22,13 +23,14 @@ export const paymentRatio = ["全款", "非全款"];
 
 export const projectColumns = (
   setViewVisable: (val: boolean) => void,
-  setGetInfo: (val: any) => void
+  setGetInfo: (val: any) => void,
+  handleDelete: (val: string[]) => void
 ) => {
   return [
     {
       title: "产品编号",
-      dataIndex: "productNo",
-      key: "productNo",
+      dataIndex: "projectNo",
+      key: "projectNo",
     },
     {
       title: "客户",
@@ -77,9 +79,18 @@ export const projectColumns = (
                 setViewVisable(true);
                 setGetInfo(record);
               }}
+              className="project-body-table-action-editor"
             >
               编辑
             </a>
+            <Popconfirm
+              title="是否确认删除该流水信息"
+              onConfirm={() => handleDelete([record?.id])}
+              okText="确定"
+              cancelText="取消"
+            >
+              <a>删除</a>
+            </Popconfirm>
           </div>
         );
       },

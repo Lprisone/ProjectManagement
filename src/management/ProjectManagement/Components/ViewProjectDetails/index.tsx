@@ -1,22 +1,42 @@
 /**项目管理详情 */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Form, Input } from "antd";
 import form from "antd/es/form";
+import { postRequest } from "src/utils";
+
+const saveOrUpdateUrl = "/projectRegister/saveOrUpdate";
 
 interface Poprs {
   scoure: any;
   viewVisable: boolean;
   setViewVisable: (val: boolean) => void;
-  handleAddOrUpdate: (val: any) => void;
+  requestDetail: () => void;
 }
 
 const ViewProjectDetails = (props: Poprs) => {
   const [form] = Form.useForm();
-  const { scoure, viewVisable, setViewVisable, handleAddOrUpdate } = props;
+  const { scoure, viewVisable, setViewVisable, requestDetail } = props;
+
+  useEffect(() => {
+    form.setFieldsValue({
+      ...scoure,
+    });
+  }, [scoure]);
+
+  const handleAddOrUpdate = async (param: any) => {
+    const newPrarm = {
+      ...param,
+      id: param?.id || undefined,
+      financialRecordList: [],
+    };
+    await postRequest(newPrarm, saveOrUpdateUrl);
+    setViewVisable(false);
+    requestDetail();
+  };
 
   const handleOk = async () => {
     const values = await form.validateFields();
-    handleAddOrUpdate(values)
+    handleAddOrUpdate(values);
   };
 
   return (
@@ -31,7 +51,7 @@ const ViewProjectDetails = (props: Poprs) => {
       <Form form={form}>
         <Form.Item
           label="项目编号"
-          name="productNo"
+          name="projectNo"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />
@@ -136,14 +156,14 @@ const ViewProjectDetails = (props: Poprs) => {
         </Form.Item>
         <Form.Item
           label="项目支出(分包方)"
-          name="projectCostSubcon"
+          name="projectCostToSubcon"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           label="项目支出(工程师)"
-          name="projectCostEngineer"
+          name="projectCostToEngineer"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />

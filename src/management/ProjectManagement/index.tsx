@@ -8,6 +8,7 @@ import {
   Button,
   Select,
   Popconfirm,
+  Form,
 } from "antd";
 import "./index.scss";
 import { initeScoure, projectColumns, paymentRatio } from "./constants";
@@ -21,15 +22,8 @@ const { RangePicker } = DatePicker;
 const { Option } = Select;
 
 const deleteBatchUrl = "/projectRegister/deleteProject";
-const saveOrUpdateUrl = "/projectRegister/saveOrUpdate";
 const checkDataUrl = "/projectRegister/selectProjectRegister";
 const infoUrl = "/projectRegister/sumProject";
-
-const mock = [
-  {
-    productNo: "xxxx",
-  },
-];
 
 const ProjectManagement = () => {
   const [getInfo, setGetInfo] = useState<any>({});
@@ -56,8 +50,8 @@ const ProjectManagement = () => {
         startDate: dayjs(headFilter.startDate)?.format("YYYY-MM-DD 00:00:00"),
         endDate: dayjs(headFilter.endDate)?.format("YYYY-MM-DD 23:59:59"),
       };
-      // const res = await getRequest(param, infoUrl);
-      // setProjectInfo(res?.data);
+      const res = await getRequest(param, infoUrl);
+      setProjectInfo(res?.data);
     }, 300),
     [headFilter]
   );
@@ -72,13 +66,8 @@ const ProjectManagement = () => {
     requestDetail();
   };
 
-  const handleAddOrUpdate = async (param: any) => {
-    const newPrarm = {
-      ...param,
-      id: param?.id || undefined,
-      financialRecordList: [],
-    };
-    await postRequest(newPrarm, saveOrUpdateUrl);
+  const handleDelete = async (id: string[]) => {
+    await postRequest(id, deleteBatchUrl);
     requestDetail();
   };
 
@@ -87,10 +76,31 @@ const ProjectManagement = () => {
       <div className="project-head-statistics-info">
         <div className="project-head-statistics-info-title">统计信息</div>
         <div className="project-head-statistics-info-box">
-          <div className="project-head-statistics-info-item"></div>
-          <div className="project-head-statistics-info-item"></div>
-          <div className="project-head-statistics-info-item"></div>
-          <div className="project-head-statistics-info-item"></div>
+          <div className="project-head-statistics-info-item">
+            <Form.Item label="总利润">
+              <span>{_.get(projectInfo, "totalNetProfit", "-")}</span>
+            </Form.Item>
+            <Form.Item label="项目支出（项目归属人）">
+              <span>{_.get(projectInfo, "totalCostToOwner", "-")}</span>
+            </Form.Item>
+            <Form.Item label="项目支出（分包方）">
+              <span>{_.get(projectInfo, "totalCostToSubcon", "-")}</span>
+            </Form.Item>
+            <Form.Item label="项目支出（工程师）">
+              <span>{_.get(projectInfo, "totalCostToEngineer", "-")}</span>
+            </Form.Item>
+          </div>
+          <div className="project-head-statistics-info-item">
+            <Form.Item label="总售价">
+              <span> {_.get(projectInfo, "totalPrice", "-")}</span>
+            </Form.Item>
+            <Form.Item label="总成本">
+              <span>{_.get(projectInfo, "totalCost", "-")}</span>
+            </Form.Item>
+            <Form.Item label="项目总数">
+              <span>{_.get(projectInfo, "projectCount", "-")}</span>
+            </Form.Item>
+          </div>
         </div>
       </div>
       <div className="project-filter">
@@ -187,8 +197,8 @@ const ProjectManagement = () => {
       </div>
       <div className="project-body">
         <Table
-          dataSource={mock}
-          columns={projectColumns(setViewVisable, setGetInfo)}
+          dataSource={projectScoure?.projectVosList}
+          columns={projectColumns(setViewVisable, setGetInfo, handleDelete)}
           expandable={{
             expandedRowRender: (record) => <FlowDeatil detailScoure={[]} />,
             onExpandedRowsChange: (expandedRows) =>
@@ -225,7 +235,7 @@ const ProjectManagement = () => {
         scoure={getInfo}
         viewVisable={viewVisable}
         setViewVisable={setViewVisable}
-        handleAddOrUpdate={handleAddOrUpdate}
+        requestDetail={requestDetail}
       />
     </div>
   );
