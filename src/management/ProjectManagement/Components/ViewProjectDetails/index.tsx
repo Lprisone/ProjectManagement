@@ -59,8 +59,8 @@ const ViewProjectDetails = (props: Poprs) => {
     const newPrarm = {
       ...param,
       company: param?.company?.[0]?.toString(),
-      startTime: dayjs(param?.startTime)?.format("YYYY-MM-DD 00:00:00"),
-      finishTime: dayjs(param?.finishTime)?.format("YYYY-MM-DD 00:00:00"),
+      startTime: dayjs(param?.startTime)?.format("YYYY-MM-DD"),
+      finishTime: dayjs(param?.finishTime)?.format("YYYY-MM-DD"),
       id: param?.id || undefined,
       financialRecordList: result,
     };

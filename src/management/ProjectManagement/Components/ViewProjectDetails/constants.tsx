@@ -115,7 +115,7 @@ export const flowColumns = (flowList: any, setFlowList: (val: any) => void) => {
           <Select
             className="project-flow-item"
             allowClear
-            onChange={(e) => handleCopy(record?.id, "amountType", e)}
+            onChange={(e) => handleCopy(record?.id, "invoiceStatus", e)}
           >
             {invoiceEnum.map((item) => {
               return (
