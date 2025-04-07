@@ -35,11 +35,6 @@ export const clientColumns = (
       key: "company",
     },
     {
-      title: "收款公司",
-      dataIndex: "paymentCompany",
-      key: "paymentCompany",
-    },
-    {
       title: "用户负责人",
       dataIndex: "userManager",
       key: "userManager",
