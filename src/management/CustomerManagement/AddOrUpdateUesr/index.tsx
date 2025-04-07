@@ -71,16 +71,6 @@ const ViewUser = (props: Poprs) => {
                 placeholder="请输入用户负责人"
               />
             </Form.Item>
-            <Form.Item
-              label="销售"
-              name="sales"
-              rules={[{ required: true, message: "Please input!" }]}
-            >
-              <Input
-                placeholder="请输入销售"
-                className="client-basic-info-input"
-              />
-            </Form.Item>
           </div>
           <Form.Item
             label="所属公司"
@@ -88,17 +78,6 @@ const ViewUser = (props: Poprs) => {
             rules={[{ required: true, message: "Please input!" }]}
           >
             <Input placeholder="请输入所属公司" />
-          </Form.Item>
-          <Form.Item
-            label="开案"
-            name="caseName"
-            rules={[{ required: true, message: "Please input!" }]}
-          >
-            <TextArea
-              rows={4}
-              autoSize={{ minRows: 4, maxRows: 6 }}
-              placeholder="请输入开案内容"
-            />
           </Form.Item>
           <Form.Item
             label="备注"

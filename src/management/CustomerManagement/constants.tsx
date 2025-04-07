@@ -35,26 +35,6 @@ export const clientColumns = (
       key: "company",
     },
     {
-      title: "销售",
-      dataIndex: "sales",
-      key: "sales",
-    },
-    {
-      title: "开案",
-      dataIndex: "caseName",
-      key: "caseName",
-    },
-    {
-      title: "给销售",
-      dataIndex: "salesRecipient",
-      key: "salesRecipient",
-    },
-    {
-      title: "给工程师",
-      dataIndex: "engineerRecipient",
-      key: "engineerRecipient",
-    },
-    {
       title: "收款公司",
       dataIndex: "paymentCompany",
       key: "paymentCompany",
