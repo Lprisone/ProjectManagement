@@ -8,12 +8,10 @@ import {
   Navigate, // 导入 Navigate 组件
 } from "react-router-dom";
 import type { MenuProps } from "antd";
-import { Button, Menu, ConfigProvider } from "antd";
+import { Menu, ConfigProvider } from "antd";
 import {
-  AppstoreOutlined,
   ContainerOutlined,
   DesktopOutlined,
-  MailOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   PieChartOutlined,
@@ -33,6 +31,10 @@ type MenuItem = Required<MenuProps>["items"][number];
 
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const url = new URL(window.location.href);
+  const path = url.pathname;
+  const segments = path.split("/");
+  const lastSegment = segments[segments.length - 1];
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -58,7 +60,11 @@ const App = () => {
       <div className="management-container">
         {/* 左侧菜单 */}
         <div className="management-container-menu">
-          <MenuWithNavigation items={items} collapsed={collapsed} />
+          <MenuWithNavigation
+            items={items}
+            collapsed={collapsed}
+            menuName={lastSegment}
+          />
           <div
             className="management-container-menu-switch"
             onClick={toggleCollapsed}
@@ -79,12 +85,12 @@ const App = () => {
 };
 
 // 定义带导航功能的菜单组件
-const MenuWithNavigation = ({ items, collapsed }: any) => {
+const MenuWithNavigation = ({ items, collapsed, menuName }: any) => {
   const navigate = useNavigate(); // 获取 navigate 函数
 
   return (
     <Menu
-      defaultSelectedKeys={["flowManagement"]} // 设置默认选中项为 "流水管理"
+      defaultSelectedKeys={[`${menuName}`]} // 设置默认选中项为 "流水管理"
       mode="inline"
       theme="dark"
       inlineCollapsed={collapsed}
@@ -117,7 +123,10 @@ const Content = () => {
   return (
     <Routes>
       {/* 默认路径重定向到流水管理 */}
-      <Route path="/" element={<Navigate to="/yitong-pro/insights/flowManagement" />} />
+      <Route
+        path="/"
+        element={<Navigate to="/yitong-pro/insights/flowManagement" />}
+      />
       <Route
         path="/yitong-pro/insights/:componentField"
         element={<DynamicComponent renderComponets={renderComponets} />}
