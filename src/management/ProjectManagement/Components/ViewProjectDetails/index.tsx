@@ -8,6 +8,7 @@ import {
   Button,
   DatePicker,
   Select,
+  Table,
 } from "antd";
 import { postRequest } from "src/utils";
 import {
@@ -17,6 +18,8 @@ import {
 import "./index.scss";
 import _ from "lodash";
 import dayjs from "dayjs";
+import { v4 as uuidv4 } from "uuid";
+import { flowColumns } from "./constants";
 
 const saveOrUpdateUrl = "/projectRegister/saveOrUpdate";
 const searchCustomerUrl = "/user/selectUser";
@@ -37,6 +40,8 @@ const ViewProjectDetails = (props: Poprs) => {
   const [form] = Form.useForm();
   const { scoure, viewVisable, setViewVisable, requestDetail } = props;
   const [searchOwner, setSearchOwner] = useState<any>();
+  const [isFlow, setIsFlow] = useState<boolean>(false);
+  const [flowList, setFlowList] = useState<any>([]);
 
   useEffect(() => {
     form.setFieldsValue({
@@ -45,13 +50,19 @@ const ViewProjectDetails = (props: Poprs) => {
   }, [scoure]);
 
   const handleAddOrUpdate = async (param: any) => {
+    const keyToRemove = "id";
+    const result = flowList?.map((item: any) => {
+      const { [keyToRemove]: _, ...rest } = item;
+      return rest;
+    });
+
     const newPrarm = {
       ...param,
       company: param?.company?.[0]?.toString(),
-      startTime: dayjs(param?.startTime)?.format("YYYY-MM-DD"),
-      finishTime: dayjs(param?.finishTime)?.format("YYYY-MM-DD"),
+      startTime: dayjs(param?.startTime)?.format("YYYY-MM-DD 00:00:00"),
+      finishTime: dayjs(param?.finishTime)?.format("YYYY-MM-DD 00:00:00"),
       id: param?.id || undefined,
-      financialRecordList: [],
+      financialRecordList: result,
     };
     await postRequest(newPrarm, saveOrUpdateUrl);
     setViewVisable(false);
@@ -73,11 +84,25 @@ const ViewProjectDetails = (props: Poprs) => {
     setSearchOwner(res?.data?.userVoList);
   }, 500);
 
+  const handleAddFlow = () => {
+    const newFlow = {
+      id: uuidv4(),
+      financialRecordsDate: dayjs(new Date())?.format("YYYY-MM-DD 00:00:00"),
+      billAmount: undefined,
+      transactionTarget: undefined,
+      amountType: undefined,
+      invoiceStatus: undefined,
+      content: undefined,
+      inOutAccount: undefined,
+    };
+    setFlowList([...flowList, newFlow]);
+  };
+
   return (
     <Modal
       destroyOnClose={true}
       title={"项目详情"}
-      width={900}
+      width={1300}
       onCancel={() => {
         setViewVisable(false);
         form.resetFields();
@@ -93,7 +118,14 @@ const ViewProjectDetails = (props: Poprs) => {
           >
             取消
           </Button>
-          <Button>插入流水</Button>
+          <Button
+            onClick={() => {
+              setIsFlow(true);
+              handleAddFlow();
+            }}
+          >
+            插入流水
+          </Button>
           <Button type="primary" onClick={handleOk}>
             确定
           </Button>
@@ -307,6 +339,13 @@ const ViewProjectDetails = (props: Poprs) => {
             placeholder="请输入补充信息"
           />
         </Form.Item>
+        {isFlow && (
+          <Table
+            dataSource={flowList}
+            columns={flowColumns(flowList, setFlowList)}
+            pagination={false}
+          />
+        )}
       </Form>
     </Modal>
   );

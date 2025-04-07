@@ -4,7 +4,7 @@ import { childColumns, Iprops } from "./constants";
 
 const FlowDeatil = (props: Iprops) => {
   const { detailScoure } = props;
-  return <Table dataSource={[]} columns={childColumns()} pagination={false} />;
+  return <Table dataSource={detailScoure} columns={childColumns()} pagination={false} />;
 };
 
 export default FlowDeatil;

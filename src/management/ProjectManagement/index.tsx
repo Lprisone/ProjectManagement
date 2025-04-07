@@ -200,7 +200,7 @@ const ProjectManagement = () => {
           dataSource={projectScoure?.projectVosList}
           columns={projectColumns(setViewVisable, setGetInfo, handleDelete)}
           expandable={{
-            expandedRowRender: (record) => <FlowDeatil detailScoure={[]} />,
+            expandedRowRender: (record) => <FlowDeatil detailScoure={record?.financialRecordList} />,
             onExpandedRowsChange: (expandedRows) =>
               console.log("e", expandedRows),
           }}
