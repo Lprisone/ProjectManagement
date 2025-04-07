@@ -117,7 +117,7 @@ const ViewUser = (props: Poprs) => {
           <div className="client-detail-frist">
             <Form.Item
               label="用户等级"
-              name="user_level"
+              name="userLevel"
               rules={[
                 { required: true, message: "请输入用户等级!" },
                 { pattern: /^[0-9]*$/, message: "用户等级必须是数字!" },

@@ -1,10 +1,30 @@
 /**项目管理详情 */
 import React, { useEffect, useState } from "react";
-import { Modal, Form, Input } from "antd";
-import form from "antd/es/form";
+import {
+  Modal,
+  Form,
+  Input,
+  InputNumber,
+  Button,
+  DatePicker,
+  Select,
+} from "antd";
 import { postRequest } from "src/utils";
+import {
+  formatAmount,
+  parseAmount,
+} from "src/management/FlowManagement/Components/ViewDetails/constants";
+import "./index.scss";
+import _ from "lodash";
+import dayjs from "dayjs";
 
 const saveOrUpdateUrl = "/projectRegister/saveOrUpdate";
+const searchCustomerUrl = "/user/selectUser";
+
+const { TextArea } = Input;
+const { Option } = Select;
+
+const statusOptions = ["已完成", "进行中"];
 
 interface Poprs {
   scoure: any;
@@ -16,6 +36,7 @@ interface Poprs {
 const ViewProjectDetails = (props: Poprs) => {
   const [form] = Form.useForm();
   const { scoure, viewVisable, setViewVisable, requestDetail } = props;
+  const [searchOwner, setSearchOwner] = useState<any>();
 
   useEffect(() => {
     form.setFieldsValue({
@@ -26,12 +47,16 @@ const ViewProjectDetails = (props: Poprs) => {
   const handleAddOrUpdate = async (param: any) => {
     const newPrarm = {
       ...param,
+      company: param?.company?.[0]?.toString(),
+      startTime: dayjs(param?.startTime)?.format("YYYY-MM-DD"),
+      finishTime: dayjs(param?.finishTime)?.format("YYYY-MM-DD"),
       id: param?.id || undefined,
       financialRecordList: [],
     };
     await postRequest(newPrarm, saveOrUpdateUrl);
     setViewVisable(false);
     requestDetail();
+    form.resetFields();
   };
 
   const handleOk = async () => {
@@ -39,26 +64,82 @@ const ViewProjectDetails = (props: Poprs) => {
     handleAddOrUpdate(values);
   };
 
+  const handleDetail = _.debounce(async () => {
+    const param = {
+      pageNum: 1,
+      pageSize: 100,
+    };
+    const res = await postRequest(param, searchCustomerUrl);
+    setSearchOwner(res?.data?.userVoList);
+  }, 500);
+
   return (
     <Modal
-      destroyOnClose
+      destroyOnClose={true}
       title={"项目详情"}
       width={900}
-      onCancel={() => setViewVisable(false)}
+      onCancel={() => {
+        setViewVisable(false);
+        form.resetFields();
+      }}
       open={viewVisable}
-      onOk={handleOk}
+      footer={
+        <>
+          <Button
+            onClick={() => {
+              setViewVisable(false);
+              form.resetFields();
+            }}
+          >
+            取消
+          </Button>
+          <Button>插入流水</Button>
+          <Button type="primary" onClick={handleOk}>
+            确定
+          </Button>
+        </>
+      }
+      wrapClassName="project-detail-modal"
     >
       <Form form={form}>
-        <Form.Item
-          label="项目编号"
-          name="projectNo"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
+        <div className="project-detail-frist">
+          <Form.Item
+            label="项目编号"
+            name="projectNo"
+            rules={[{ required: false }]}
+          >
+            <Input disabled className="project-detail-frist-item" />
+          </Form.Item>
+          <Form.Item
+            label="状态"
+            name="projectStatus"
+            rules={[{ required: false, message: "Please input!" }]}
+          >
+            <Select className="project-detail-frist-item">
+              {statusOptions.map((item) => (
+                <Option value={item} title={item}>
+                  {item}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </div>
         <Form.Item
           label="客户"
           name="company"
+          rules={[{ required: true, message: "请选择客户" }]}
+        >
+          <Select mode="tags" onFocus={handleDetail}>
+            {searchOwner?.map((item: any) => (
+              <Option value={item?.id} title={item?.company}>
+                {item?.company}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          label="联系人"
+          name="contactPerson"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />
@@ -70,48 +151,38 @@ const ViewProjectDetails = (props: Poprs) => {
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          label="状态"
-          name="projectStatus"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="成本"
-          name="cost"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="售价"
-          name="price"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="开案时间"
-          name="startTime"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="结案时间"
-          name="finishTime"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="联系人"
-          name="contactPerson"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
+        <div className="project-detail-frist">
+          <Form.Item
+            label="成本"
+            name="cost"
+            rules={[{ required: true, message: "Please input!" }]}
+          >
+            <Input className="project-detail-frist-item" />
+          </Form.Item>
+          <Form.Item
+            label="售价"
+            name="price"
+            rules={[{ required: true, message: "Please input!" }]}
+          >
+            <Input className="project-detail-frist-item" />
+          </Form.Item>
+        </div>
+        <div className="project-detail-frist">
+          <Form.Item
+            label="开案时间"
+            name="startTime"
+            rules={[{ required: false, message: "Please input!" }]}
+          >
+            <DatePicker className="project-detail-frist-item" />
+          </Form.Item>
+          <Form.Item
+            label="结案时间"
+            name="finishTime"
+            rules={[{ required: false, message: "Please input!" }]}
+          >
+            <DatePicker className="project-detail-frist-item" />
+          </Form.Item>
+        </div>
         <Form.Item
           label="分包方"
           name="subcontractorName"
@@ -134,53 +205,107 @@ const ViewProjectDetails = (props: Poprs) => {
           <Input />
         </Form.Item>
         <Form.Item
-          label="补充信息"
-          name="remak"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="付款比例"
-          name="paymentRatio"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
           label="项目归属人"
           name="projectOwner"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />
         </Form.Item>
+        <div className="project-detail-frist">
+          <Form.Item
+            label="项目支出(项目归属人)"
+            name="projectCostOwner"
+            rules={[{ required: false, message: "Please input!" }]}
+          >
+            <InputNumber
+              prefix="￥"
+              formatter={(value) => formatAmount(value)}
+              parser={(value) => parseAmount(value)}
+              placeholder="请输入金额"
+              min={0}
+              precision={4}
+              controls={false}
+              className="project-detail-frist-cost"
+            />
+          </Form.Item>
+          <Form.Item
+            label="项目支出(分包方)"
+            name="projectCostToSubcon"
+            rules={[{ required: false, message: "Please input!" }]}
+          >
+            <InputNumber
+              prefix="￥"
+              formatter={(value) => formatAmount(value)}
+              parser={(value) => parseAmount(value)}
+              placeholder="请输入金额"
+              min={0}
+              precision={4}
+              controls={false}
+              className="project-detail-frist-cost"
+            />
+          </Form.Item>
+        </div>
+        <div className="project-detail-frist">
+          <Form.Item
+            label="项目支出(工程师)"
+            name="projectCostToEngineer"
+            rules={[{ required: false, message: "Please input!" }]}
+          >
+            <InputNumber
+              prefix="￥"
+              formatter={(value) => formatAmount(value)}
+              parser={(value) => parseAmount(value)}
+              placeholder="请输入金额"
+              min={0}
+              precision={4}
+              controls={false}
+              className="project-detail-frist-cost"
+            />
+          </Form.Item>
+          <Form.Item
+            label="项目利润"
+            name="projectNetProfit"
+            rules={[{ required: false, message: "Please input!" }]}
+          >
+            <InputNumber
+              prefix="￥"
+              formatter={(value) => formatAmount(value)}
+              parser={(value) => parseAmount(value)}
+              placeholder="请输入金额"
+              min={0}
+              precision={4}
+              controls={false}
+              className="project-detail-frist-cost"
+            />
+          </Form.Item>
+        </div>
+        <div className="project-detail-frist">
+          <Form.Item
+            label="付款比例"
+            name="paymentRatio"
+            rules={[{ required: false, message: "Please input!" }]}
+          >
+            <InputNumber
+              formatter={(value) => formatAmount(value)}
+              parser={(value) => parseAmount(value)}
+              placeholder="请输入付款比例"
+              min={0}
+              precision={4}
+              controls={false}
+              className="project-detail-frist-item"
+            />
+          </Form.Item>
+        </div>
         <Form.Item
-          label="项目支出(分包方)"
-          name="projectCostToSubcon"
-          rules={[{ required: true, message: "Please input!" }]}
+          label="补充信息"
+          name="remak"
+          rules={[{ required: false, message: "Please input!" }]}
         >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="项目支出(工程师)"
-          name="projectCostToEngineer"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="项目支出(项目归属人)"
-          name="projectCostOwner"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="项目利润"
-          name="projectNetProfit"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input />
+          <TextArea
+            rows={4}
+            autoSize={{ minRows: 4, maxRows: 6 }}
+            placeholder="请输入补充信息"
+          />
         </Form.Item>
       </Form>
     </Modal>

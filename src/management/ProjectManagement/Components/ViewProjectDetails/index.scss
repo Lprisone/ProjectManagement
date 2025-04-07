@@ -1,0 +1,19 @@
+.project-detail-modal {
+  width: 100%;
+  .ant-modal-body {
+    width: 100%;
+    .project-detail-frist {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      .project-detail-frist-item {
+        width: 330px;
+      }
+
+      .project-detail-frist-cost {
+        width: 250px;
+      }
+    }
+  }
+}
