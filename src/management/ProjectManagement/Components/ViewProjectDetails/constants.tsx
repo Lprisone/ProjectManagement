@@ -66,6 +66,7 @@ export const flowColumns = (flowList: any, setFlowList: (val: any) => void) => {
       render: (text: string, record: any) => {
         return (
           <InputNumber
+            value={Number(text)}
             prefix="￥"
             formatter={(value) => formatAmount(value)}
             parser={(value) => parseAmount(value)}
@@ -89,7 +90,10 @@ export const flowColumns = (flowList: any, setFlowList: (val: any) => void) => {
       render: (text: string, record: any) => {
         return (
           <Input
-            onChange={(e) => handleCopy(record?.id, "transactionTarget", e?.target?.value)}
+            value={text}
+            onChange={(e) =>
+              handleCopy(record?.id, "transactionTarget", e?.target?.value)
+            }
           />
         );
       },
@@ -101,7 +105,12 @@ export const flowColumns = (flowList: any, setFlowList: (val: any) => void) => {
       width: "12%",
       render: (text: string, record: any) => {
         return (
-          <Input onChange={(e) => handleCopy(record?.id, "amountType", e?.target?.value)} />
+          <Input
+            value={text}
+            onChange={(e) =>
+              handleCopy(record?.id, "amountType", e?.target?.value)
+            }
+          />
         );
       },
     },
@@ -113,6 +122,7 @@ export const flowColumns = (flowList: any, setFlowList: (val: any) => void) => {
       render: (text: string, record: any) => {
         return (
           <Select
+            value={text}
             className="project-flow-item"
             allowClear
             onChange={(e) => handleCopy(record?.id, "invoiceStatus", e)}
@@ -134,7 +144,14 @@ export const flowColumns = (flowList: any, setFlowList: (val: any) => void) => {
       key: "content",
       width: "12%",
       render: (text: string, record: any) => {
-        return <Input onChange={(e) => handleCopy(record?.id, "content", e?.target?.value)} />;
+        return (
+          <Input
+            value={text}
+            onChange={(e) =>
+              handleCopy(record?.id, "content", e?.target?.value)
+            }
+          />
+        );
       },
     },
     {
@@ -144,7 +161,12 @@ export const flowColumns = (flowList: any, setFlowList: (val: any) => void) => {
       width: "12%",
       render: (text: string, record: any) => {
         return (
-          <Input onChange={(e) => handleCopy(record?.id, "inOutAccount", e?.target?.value)} />
+          <Input
+            value={text}
+            onChange={(e) =>
+              handleCopy(record?.id, "inOutAccount", e?.target?.value)
+            }
+          />
         );
       },
     },

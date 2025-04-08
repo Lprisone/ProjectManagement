@@ -46,7 +46,13 @@ const ViewProjectDetails = (props: Poprs) => {
   useEffect(() => {
     form.setFieldsValue({
       ...scoure,
+      startTime: dayjs(scoure?.startTime),
+      finishTime: dayjs(scoure?.finishTime),
     });
+    if (!_.isEmpty(scoure?.financialRecordList)) {
+      setFlowList(scoure?.financialRecordList);
+      setIsFlow(true);
+    }
   }, [scoure]);
 
   const handleAddOrUpdate = async (param: any) => {
@@ -172,14 +178,14 @@ const ViewProjectDetails = (props: Poprs) => {
         <Form.Item
           label="联系人"
           name="contactPerson"
-          rules={[{ required: true, message: "Please input!" }]}
+          rules={[{ required: true, message: "请填写联系人" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           label="服务内容"
           name="serviceContent"
-          rules={[{ required: true, message: "Please input!" }]}
+          rules={[{ required: true, message: "请填写服务内容" }]}
         >
           <Input />
         </Form.Item>
@@ -187,14 +193,14 @@ const ViewProjectDetails = (props: Poprs) => {
           <Form.Item
             label="成本"
             name="cost"
-            rules={[{ required: true, message: "Please input!" }]}
+            rules={[{ required: true, message: "请输入成本" }]}
           >
             <Input className="project-detail-frist-item" />
           </Form.Item>
           <Form.Item
             label="售价"
             name="price"
-            rules={[{ required: true, message: "Please input!" }]}
+            rules={[{ required: true, message: "请填写售价" }]}
           >
             <Input className="project-detail-frist-item" />
           </Form.Item>
@@ -203,14 +209,14 @@ const ViewProjectDetails = (props: Poprs) => {
           <Form.Item
             label="开案时间"
             name="startTime"
-            rules={[{ required: false, message: "Please input!" }]}
+            rules={[{ required: false }]}
           >
             <DatePicker className="project-detail-frist-item" />
           </Form.Item>
           <Form.Item
             label="结案时间"
             name="finishTime"
-            rules={[{ required: false, message: "Please input!" }]}
+            rules={[{ required: false }]}
           >
             <DatePicker className="project-detail-frist-item" />
           </Form.Item>
@@ -218,28 +224,28 @@ const ViewProjectDetails = (props: Poprs) => {
         <Form.Item
           label="分包方"
           name="subcontractorName"
-          rules={[{ required: true, message: "Please input!" }]}
+          rules={[{ required: true, message: "请填写分包方" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           label="分包方联系人"
           name="subcontractorPerson"
-          rules={[{ required: true, message: "Please input!" }]}
+          rules={[{ required: true, message: "请填写分包方联系人" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           label="收款公司"
           name="payeeCompany"
-          rules={[{ required: true, message: "Please input!" }]}
+          rules={[{ required: true, message: "请填写收款公司" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           label="项目归属人"
           name="projectOwner"
-          rules={[{ required: true, message: "Please input!" }]}
+          rules={[{ required: true, message: "请填写项目归属人!" }]}
         >
           <Input />
         </Form.Item>
@@ -247,7 +253,7 @@ const ViewProjectDetails = (props: Poprs) => {
           <Form.Item
             label="项目支出(项目归属人)"
             name="projectCostOwner"
-            rules={[{ required: false, message: "Please input!" }]}
+            rules={[{ required: false }]}
           >
             <InputNumber
               prefix="￥"
@@ -263,7 +269,7 @@ const ViewProjectDetails = (props: Poprs) => {
           <Form.Item
             label="项目支出(分包方)"
             name="projectCostToSubcon"
-            rules={[{ required: false, message: "Please input!" }]}
+            rules={[{ required: false }]}
           >
             <InputNumber
               prefix="￥"
@@ -281,7 +287,7 @@ const ViewProjectDetails = (props: Poprs) => {
           <Form.Item
             label="项目支出(工程师)"
             name="projectCostToEngineer"
-            rules={[{ required: false, message: "Please input!" }]}
+            rules={[{ required: false }]}
           >
             <InputNumber
               prefix="￥"
@@ -297,7 +303,7 @@ const ViewProjectDetails = (props: Poprs) => {
           <Form.Item
             label="项目利润"
             name="projectNetProfit"
-            rules={[{ required: false, message: "Please input!" }]}
+            rules={[{ required: false }]}
           >
             <InputNumber
               prefix="￥"
@@ -315,7 +321,7 @@ const ViewProjectDetails = (props: Poprs) => {
           <Form.Item
             label="付款比例"
             name="paymentRatio"
-            rules={[{ required: false, message: "Please input!" }]}
+            rules={[{ required: false }]}
           >
             <InputNumber
               formatter={(value) => formatAmount(value)}
@@ -328,25 +334,21 @@ const ViewProjectDetails = (props: Poprs) => {
             />
           </Form.Item>
         </div>
-        <Form.Item
-          label="补充信息"
-          name="remak"
-          rules={[{ required: false, message: "Please input!" }]}
-        >
+        <Form.Item label="补充信息" name="remak" rules={[{ required: false }]}>
           <TextArea
             rows={4}
             autoSize={{ minRows: 4, maxRows: 6 }}
             placeholder="请输入补充信息"
           />
         </Form.Item>
-        {isFlow && (
-          <Table
-            dataSource={flowList}
-            columns={flowColumns(flowList, setFlowList)}
-            pagination={false}
-          />
-        )}
       </Form>
+      {isFlow && (
+        <Table
+          dataSource={flowList}
+          columns={flowColumns(flowList, setFlowList)}
+          pagination={false}
+        />
+      )}
     </Modal>
   );
 };
