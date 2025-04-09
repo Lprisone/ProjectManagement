@@ -1,11 +1,18 @@
 import React from "react";
 import dayjs from "dayjs";
+import { Popconfirm } from "antd";
 
 export interface Iprops {
   detailScoure: any;
+  requestDetail: () => void;
+  searchInfo: () => void;
 }
 
-export const childColumns = () => {
+export const childColumns = (
+  setViewVisable: any,
+  setGetInfo: any,
+  handleDelete: any
+) => {
   return [
     {
       title: "水单日期",
@@ -44,6 +51,34 @@ export const childColumns = () => {
       title: "进出账",
       dataIndex: "inOutAccount",
       key: "inOutAccount",
+    },
+    {
+      title: "操作",
+      dataIndex: "action",
+      key: "action",
+      render: (_text: any, record: any) => {
+        return (
+          <div>
+            <a
+              onClick={() => {
+                setViewVisable(true);
+                setGetInfo(record);
+              }}
+              style={{marginRight: '10px'}}
+            >
+              编辑
+            </a>
+            <Popconfirm
+              title="是否确认删除该流水信息"
+              onConfirm={() => handleDelete([record?.id])}
+              okText="确定"
+              cancelText="取消"
+            >
+              <a>删除</a>
+            </Popconfirm>
+          </div>
+        );
+      },
     },
   ];
 };

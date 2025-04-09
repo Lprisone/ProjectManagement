@@ -211,10 +211,12 @@ const ProjectManagement = () => {
           columns={projectColumns(setViewVisable, setGetInfo, handleDelete)}
           expandable={{
             expandedRowRender: (record) => (
-              <FlowDeatil detailScoure={record?.financialRecordList} />
+              <FlowDeatil
+                detailScoure={record?.financialRecordList}
+                requestDetail={requestDetail}
+                searchInfo={searchInfo}
+              />
             ),
-            onExpandedRowsChange: (expandedRows) =>
-              console.log("e", expandedRows),
           }}
           rowKey={"id"}
           rowSelection={{

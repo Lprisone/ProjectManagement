@@ -122,6 +122,7 @@ const CustomerManagement = () => {
       </div>
       <ViewUser
         scoure={userInfo}
+        setScoure={setUserInfo}
         viewVisable={userVisable}
         setViewVisable={setUserVisable}
         handleSearch={handleDetail}

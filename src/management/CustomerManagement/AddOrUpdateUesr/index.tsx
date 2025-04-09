@@ -6,6 +6,7 @@ import { postRequest } from "src/utils";
 
 interface Poprs {
   scoure: any;
+  setScoure: (val: any) => void;
   viewVisable: boolean;
   setViewVisable: (val: boolean) => void;
   handleSearch: () => void;
@@ -16,19 +17,26 @@ const { TextArea } = Input;
 const updateUrl = "/user/saveOrUpdate";
 
 const ViewUser = (props: Poprs) => {
-  const { scoure, viewVisable, setViewVisable, handleSearch } = props;
+  const { scoure, setScoure, viewVisable, setViewVisable, handleSearch } =
+    props;
   const [form] = Form.useForm();
 
   const handleOk = async () => {
-    const values = await form.validateFields();
-    const param = {
-      ...values,
-      id: scoure?.id || undefined,
-    };
+    try {
+      const values = await form.validateFields();
+      const param = {
+        ...values,
+        id: scoure?.id || undefined,
+      };
 
-    await postRequest(param, updateUrl);
-    setViewVisable(false);
-    handleSearch();
+      await postRequest(param, updateUrl);
+      setViewVisable(false);
+      handleSearch();
+      setScoure(undefined);
+      form.resetFields();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   useEffect(() => {
@@ -43,7 +51,11 @@ const ViewUser = (props: Poprs) => {
       destroyOnClose
       title={"客户详情"}
       width={900}
-      onCancel={() => setViewVisable(false)}
+      onCancel={() => {
+        setViewVisable(false);
+        setScoure(undefined);
+        form.resetFields();
+      }}
       open={viewVisable}
       onOk={handleOk}
     >
