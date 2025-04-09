@@ -54,11 +54,11 @@ const FlowManagement = () => {
     searchStatistics();
   };
 
-  const handleBatchDelete = async() => {
+  const handleBatchDelete = async () => {
     await postRequest(selectedKeys, querDeletesUrl);
     searchDeatil();
     searchStatistics();
-  }
+  };
 
   const searchDeatil = useCallback(
     _.debounce(async () => {
@@ -103,48 +103,62 @@ const FlowManagement = () => {
     <div className="flow-container">
       <div className="flow-head-statistics-info">
         <div className="flow-head-statistics-info-title">统计信息</div>
-        <div className="flow-head-statistics-info-box">
-          <div className="flow-head-statistics-info-item">
-            <Form.Item label="本次记账周期">
-              <span>
-                {dayjs(_.get(statisticalInfo, "startDate"))?.format(
-                  "YYYY-MM-DD"
-                )}{" "}
-                ~{" "}
-                {dayjs(_.get(statisticalInfo, "endDate"))?.format("YYYY-MM-DD")}
-              </span>
-            </Form.Item>
-            <Form.Item label="进账">
-              <span>{_.get(statisticalInfo, "inAccountCount", "-")}</span>
-            </Form.Item>
-            <Form.Item label="出账">
-              <span>{_.get(statisticalInfo, "outAccountCount", "-")}</span>
-            </Form.Item>
-            <Form.Item label="周期进出账小计">
-              <span>{_.get(statisticalInfo, "inOutAccountCount", "-")}</span>
-            </Form.Item>
+        <Form>
+          <div className="flow-head-statistics-info-box">
+            <div className="flow-head-statistics-info-item">
+              <Form.Item label="本次记账周期">
+                <span>
+                  {dayjs(_.get(statisticalInfo, "startDate"))?.format(
+                    "YYYY-MM-DD"
+                  )}{" "}
+                  ~{" "}
+                  {dayjs(_.get(statisticalInfo, "endDate"))?.format(
+                    "YYYY-MM-DD"
+                  )}
+                </span>
+              </Form.Item>
+              <Form.Item label="周期进出账小计">
+                <span>{_.get(statisticalInfo, "inOutAccountCount", "-")}</span>
+              </Form.Item>
+            </div>
+
+            <div className="flow-head-statistics-info-item">
+              <Form.Item label="已开票（出）">
+                <span> {_.get(statisticalInfo, "outInvoicedCount", "-")}</span>
+              </Form.Item>
+              <Form.Item label="已开票（进）">
+                <span>{_.get(statisticalInfo, "inInvoicedCount", "-")}</span>
+              </Form.Item>
+            </div>
+
+            <div className="flow-head-statistics-info-item">
+              <Form.Item label="未开票（出）">
+                <span>{_.get(statisticalInfo, "outInvoicedCount", "-")}</span>
+              </Form.Item>
+              <Form.Item label="未开票（进）">
+                <span>{_.get(statisticalInfo, "inUninvoicedCount", "-")}</span>
+              </Form.Item>
+            </div>
+
+            <div className="flow-head-statistics-info-item">
+              <Form.Item label="不开票（进）">
+                <span>{_.get(statisticalInfo, "noInInvoiceCount", "-")}</span>
+              </Form.Item>
+              <Form.Item label="不开票（出）">
+                <span>{_.get(statisticalInfo, "noOutInvoiceCount", "-")}</span>
+              </Form.Item>
+            </div>
+
+            <div className="flow-head-statistics-info-item">
+              <Form.Item label="进账">
+                <span>{_.get(statisticalInfo, "inAccountCount", "-")}</span>
+              </Form.Item>
+              <Form.Item label="出账">
+                <span>{_.get(statisticalInfo, "outAccountCount", "-")}</span>
+              </Form.Item>
+            </div>
           </div>
-          <div className="flow-head-statistics-info-item">
-            <Form.Item label="已开票（出）">
-              <span> {_.get(statisticalInfo, "outInvoicedCount", "-")}</span>
-            </Form.Item>
-            <Form.Item label="已开票（进）">
-              <span>{_.get(statisticalInfo, "inInvoicedCount", "-")}</span>
-            </Form.Item>
-            <Form.Item label="未开票（出）">
-              <span>{_.get(statisticalInfo, "outInvoicedCount", "-")}</span>
-            </Form.Item>
-            <Form.Item label="未开票（进）">
-              <span>{_.get(statisticalInfo, "inUninvoicedCount", "-")}</span>
-            </Form.Item>
-            <Form.Item label="不开票（进）">
-              <span>{_.get(statisticalInfo, "noInInvoiceCount", "-")}</span>
-            </Form.Item>
-            <Form.Item label="不开票（出）">
-              <span>{_.get(statisticalInfo, "noOutInvoiceCount", "-")}</span>
-            </Form.Item>
-          </div>
-        </div>
+        </Form>
       </div>
       <div className="flow-filter">
         <RangePicker
@@ -272,6 +286,7 @@ const FlowManagement = () => {
       </div>
       <ViewDetails
         scoure={getInfo}
+        setScoure={setGetInfo}
         viewVisable={viewVisable}
         setViewVisable={setViewVisable}
         handleSearch={searchDeatil}

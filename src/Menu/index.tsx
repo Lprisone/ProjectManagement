@@ -34,7 +34,7 @@ const App = () => {
   const url = new URL(window.location.href);
   const path = url.pathname;
   const segments = path.split("/");
-  const lastSegment = segments[segments.length - 1];
+  const lastSegment = segments[segments.length - 1] || 'flowManagement';
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);

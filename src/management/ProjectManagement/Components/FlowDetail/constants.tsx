@@ -41,7 +41,7 @@ export const childColumns = () => {
       key: "content",
     },
     {
-      title: "进出帐",
+      title: "进出账",
       dataIndex: "inOutAccount",
       key: "inOutAccount",
     },

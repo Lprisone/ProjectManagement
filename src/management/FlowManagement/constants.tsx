@@ -14,7 +14,7 @@ export const flowColumns = (
       title: () => {
         return (
           <>
-            商品编号
+            项目编号
             <Tooltip title="分组">
               <AppstoreTwoTone
                 className="flow-table-group"

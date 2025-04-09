@@ -155,7 +155,7 @@ export const flowColumns = (flowList: any, setFlowList: (val: any) => void) => {
       },
     },
     {
-      title: "进出帐",
+      title: "进出账",
       dataIndex: "inOutAccount",
       key: "inOutAccount",
       width: "12%",

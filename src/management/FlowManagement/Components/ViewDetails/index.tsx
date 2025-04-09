@@ -8,6 +8,7 @@ import { postRequest } from "src/utils";
 
 interface Poprs {
   scoure: any;
+  setScoure: (val: any) => void;
   viewVisable: boolean;
   setViewVisable: (val: boolean) => void;
   handleSearch: () => void;
@@ -20,6 +21,7 @@ const updateUrl = "/financialRecord/saveOrUpdate";
 const ViewDetails = (props: Poprs) => {
   const {
     scoure,
+    setScoure,
     viewVisable,
     setViewVisable,
     handleSearch,
@@ -28,22 +30,28 @@ const ViewDetails = (props: Poprs) => {
   const [form] = Form.useForm();
 
   const handleOk = async () => {
-    const values = await form.validateFields();
+    try {
+      const values = await form.validateFields();
 
-    const param = {
-      ...values,
-      billAmount: parseAmount(values?.billAmount?.toString()),
-      financialRecordsDate: dayjs(values.financialRecordsDate)
-        .startOf("day")
-        .format("YYYY-MM-DD HH:mm:ss"),
-      id: scoure?.id || undefined,
-      projectNo: scoure?.projectNo,
-    };
+      const param = {
+        ...values,
+        billAmount: parseAmount(values?.billAmount?.toString()),
+        financialRecordsDate: dayjs(values.financialRecordsDate)
+          .startOf("day")
+          .format("YYYY-MM-DD HH:mm:ss"),
+        id: scoure?.id || undefined,
+        projectNo: scoure?.projectNo,
+      };
 
-    await postRequest(param, updateUrl);
-    setViewVisable(false);
-    handleSearch();
-    searchStatistics();
+      await postRequest(param, updateUrl);
+      setViewVisable(false);
+      handleSearch();
+      searchStatistics();
+      setScoure(undefined);
+      form.resetFields();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   useEffect(() => {
@@ -60,23 +68,36 @@ const ViewDetails = (props: Poprs) => {
       destroyOnClose
       title={"流水详情"}
       width={900}
-      onCancel={() => setViewVisable(false)}
+      onCancel={() => {
+        setViewVisable(false);
+        setScoure(undefined);
+        form.resetFields();
+      }}
       open={viewVisable}
       onOk={handleOk}
     >
       <Form form={form}>
-        <Form.Item
-          label="水单日期"
-          name="financialRecordsDate"
-          rules={[{ required: true, message: "请选择水单日期" }]}
-        >
-          <DatePicker className="flow-detail-frist-date" />
-        </Form.Item>
+        <div className="flow-detail-frist">
+          <Form.Item
+            label="项目编号"
+            name="projectNo"
+            rules={[{ required: false, message: "请填写项目编号" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="水单日期"
+            name="financialRecordsDate"
+            rules={[{ required: false, message: "请选择水单日期" }]}
+          >
+            <DatePicker className="flow-detail-frist-date" />
+          </Form.Item>
+        </div>
         <div className="flow-detail-frist">
           <Form.Item
             label="账单金额"
             name="billAmount"
-            rules={[{ required: true, message: "Please input!" }]}
+            rules={[{ required: false, message: "Please input!" }]}
           >
             <InputNumber
               prefix="￥"
@@ -92,7 +113,7 @@ const ViewDetails = (props: Poprs) => {
           <Form.Item
             label="发票状态"
             name="invoiceStatus"
-            rules={[{ required: true, message: "Please input!" }]}
+            rules={[{ required: false, message: "Please input!" }]}
           >
             <Select className="flow-detail-frist-status" allowClear>
               {invoiceEnum.map((item) => {
@@ -108,28 +129,28 @@ const ViewDetails = (props: Poprs) => {
         <Form.Item
           label="内容"
           name="content"
-          rules={[{ required: true, message: "Please input!" }]}
+          rules={[{ required: false, message: "Please input!" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           label="交易对象"
           name="transactionTarget"
-          rules={[{ required: true, message: "Please input!" }]}
+          rules={[{ required: false, message: "Please input!" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           label="款项类型"
           name="amountType"
-          rules={[{ required: true, message: "Please input!" }]}
+          rules={[{ required: false, message: "Please input!" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           label="进出帐"
           name="inOutAccount"
-          rules={[{ required: true, message: "Please input!" }]}
+          rules={[{ required: false, message: "Please input!" }]}
         >
           <Select allowClear>
             {checkEnum.map((item) => {
