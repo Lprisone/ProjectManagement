@@ -46,7 +46,7 @@ const PriceSheet = () => {
         subtotal: values?.subtotal,
       },
       quotationInvoiceVo: {
-        isSwitch: false,
+        isSwitch: values?.isSwitch,
         invoiceTitle: values?.invoiceTitle,
         invoiceAddress: values?.invoiceAddress,
         tin: values?.tin,
