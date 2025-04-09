@@ -75,33 +75,43 @@ const ProjectManagement = () => {
     <div className="project-container">
       <div className="project-head-statistics-info">
         <div className="project-head-statistics-info-title">统计信息</div>
-        <div className="project-head-statistics-info-box">
-          <div className="project-head-statistics-info-item">
-            <Form.Item label="总利润">
-              <span>{_.get(projectInfo, "totalNetProfit", "-")}</span>
-            </Form.Item>
-            <Form.Item label="项目支出（项目归属人）">
-              <span>{_.get(projectInfo, "totalCostToOwner", "-")}</span>
-            </Form.Item>
-            <Form.Item label="项目支出（分包方）">
-              <span>{_.get(projectInfo, "totalCostToSubcon", "-")}</span>
-            </Form.Item>
-            <Form.Item label="项目支出（工程师）">
-              <span>{_.get(projectInfo, "totalCostToEngineer", "-")}</span>
-            </Form.Item>
+        <Form>
+          <div className="project-head-statistics-info-box">
+            <div
+              className="project-head-statistics-info-item"
+              style={{ background: "#87e8de" }}
+            >
+              <Form.Item label="项目支出（项目归属人）">
+                <span>{_.get(projectInfo, "totalCostToOwner", "-")}</span>
+              </Form.Item>
+              <Form.Item label="项目支出（分包方）">
+                <span>{_.get(projectInfo, "totalCostToSubcon", "-")}</span>
+              </Form.Item>
+              <Form.Item label="项目支出（工程师）">
+                <span>{_.get(projectInfo, "totalCostToEngineer", "-")}</span>
+              </Form.Item>
+            </div>
+            <div className="project-head-statistics-info-item-count">
+              <Form.Item label="项目总数">
+                <span>{_.get(projectInfo, "projectCount", "-")}</span>
+              </Form.Item>
+            </div>
+            <div
+              className="project-head-statistics-info-item"
+              style={{ background: "#b7eb8f" }}
+            >
+              <Form.Item label="总成本">
+                <span>{_.get(projectInfo, "totalCost", "-")}</span>
+              </Form.Item>
+              <Form.Item label="总售价">
+                <span> {_.get(projectInfo, "totalPrice", "-")}</span>
+              </Form.Item>
+              <Form.Item label="总利润">
+                <span>{_.get(projectInfo, "totalNetProfit", "-")}</span>
+              </Form.Item>
+            </div>
           </div>
-          <div className="project-head-statistics-info-item">
-            <Form.Item label="总售价">
-              <span> {_.get(projectInfo, "totalPrice", "-")}</span>
-            </Form.Item>
-            <Form.Item label="总成本">
-              <span>{_.get(projectInfo, "totalCost", "-")}</span>
-            </Form.Item>
-            <Form.Item label="项目总数">
-              <span>{_.get(projectInfo, "projectCount", "-")}</span>
-            </Form.Item>
-          </div>
-        </div>
+        </Form>
       </div>
       <div className="project-filter">
         <RangePicker
@@ -200,7 +210,9 @@ const ProjectManagement = () => {
           dataSource={projectScoure?.projectVosList}
           columns={projectColumns(setViewVisable, setGetInfo, handleDelete)}
           expandable={{
-            expandedRowRender: (record) => <FlowDeatil detailScoure={record?.financialRecordList} />,
+            expandedRowRender: (record) => (
+              <FlowDeatil detailScoure={record?.financialRecordList} />
+            ),
             onExpandedRowsChange: (expandedRows) =>
               console.log("e", expandedRows),
           }}
@@ -233,6 +245,7 @@ const ProjectManagement = () => {
       </div>
       <ViewProjectDetails
         scoure={getInfo}
+        setScoure={setGetInfo}
         viewVisable={viewVisable}
         setViewVisable={setViewVisable}
         requestDetail={requestDetail}

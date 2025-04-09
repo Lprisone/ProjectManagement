@@ -9,6 +9,7 @@ import {
   DatePicker,
   Select,
   Table,
+  message,
 } from "antd";
 import { postRequest } from "src/utils";
 import {
@@ -31,6 +32,7 @@ const statusOptions = ["已完成", "进行中"];
 
 interface Poprs {
   scoure: any;
+  setScoure: (val: any) => void;
   viewVisable: boolean;
   setViewVisable: (val: boolean) => void;
   requestDetail: () => void;
@@ -38,7 +40,8 @@ interface Poprs {
 
 const ViewProjectDetails = (props: Poprs) => {
   const [form] = Form.useForm();
-  const { scoure, viewVisable, setViewVisable, requestDetail } = props;
+  const { scoure, setScoure, viewVisable, setViewVisable, requestDetail } =
+    props;
   const [searchOwner, setSearchOwner] = useState<any>();
   const [isFlow, setIsFlow] = useState<boolean>(false);
   const [flowList, setFlowList] = useState<any>([]);
@@ -55,30 +58,31 @@ const ViewProjectDetails = (props: Poprs) => {
     }
   }, [scoure]);
 
-  const handleAddOrUpdate = async (param: any) => {
-    const keyToRemove = "id";
-    const result = flowList?.map((item: any) => {
-      const { [keyToRemove]: _, ...rest } = item;
-      return rest;
-    });
-
-    const newPrarm = {
-      ...param,
-      company: param?.company?.[0]?.toString(),
-      startTime: dayjs(param?.startTime)?.format("YYYY-MM-DD"),
-      finishTime: dayjs(param?.finishTime)?.format("YYYY-MM-DD"),
-      id: param?.id || undefined,
-      financialRecordList: result,
-    };
-    await postRequest(newPrarm, saveOrUpdateUrl);
-    setViewVisable(false);
-    requestDetail();
-    form.resetFields();
-  };
-
   const handleOk = async () => {
-    const values = await form.validateFields();
-    handleAddOrUpdate(values);
+    try {
+      const param = await form.validateFields();
+      const keyToRemove = "id";
+      const result = flowList?.map((item: any) => {
+        const { [keyToRemove]: _, ...rest } = item;
+        return rest;
+      });
+
+      const newPrarm = {
+        ...param,
+        company: param?.company?.[0]?.toString(),
+        startTime: dayjs(param?.startTime)?.format("YYYY-MM-DD"),
+        finishTime: dayjs(param?.finishTime)?.format("YYYY-MM-DD"),
+        id: scoure?.id || undefined,
+        gmtCreate: dayjs(scoure?.gmtCreate)?.format("YYYY-MM-DD HH:mm:ss"),
+        financialRecordList: result,
+      };
+      await postRequest(newPrarm, saveOrUpdateUrl);
+      setViewVisable(false);
+      requestDetail();
+      form.resetFields();
+    } catch (e) {
+      message.error("请填写表单数据");
+    }
   };
 
   const handleDetail = _.debounce(async () => {
@@ -112,6 +116,9 @@ const ViewProjectDetails = (props: Poprs) => {
       onCancel={() => {
         setViewVisable(false);
         form.resetFields();
+        setFlowList([]);
+        setIsFlow(false);
+        setScoure(undefined);
       }}
       open={viewVisable}
       footer={
@@ -120,6 +127,9 @@ const ViewProjectDetails = (props: Poprs) => {
             onClick={() => {
               setViewVisable(false);
               form.resetFields();
+              setFlowList([]);
+              setIsFlow(false);
+              setScoure(undefined);
             }}
           >
             取消
@@ -230,7 +240,7 @@ const ViewProjectDetails = (props: Poprs) => {
         </Form.Item>
         <Form.Item
           label="分包方联系人"
-          name="subcontractorPerson"
+          name="subcontractorContactPerson"
           rules={[{ required: true, message: "请填写分包方联系人" }]}
         >
           <Input />
@@ -334,7 +344,7 @@ const ViewProjectDetails = (props: Poprs) => {
             />
           </Form.Item>
         </div>
-        <Form.Item label="补充信息" name="remak" rules={[{ required: false }]}>
+        <Form.Item label="补充信息" name="remark" rules={[{ required: false }]}>
           <TextArea
             rows={4}
             autoSize={{ minRows: 4, maxRows: 6 }}
