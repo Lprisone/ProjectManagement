@@ -42,7 +42,7 @@ const App = () => {
 
   const items: MenuItem[] = [
     { key: "flowManagement", icon: <DesktopOutlined />, label: "流水管理" },
-    { key: "priceSheet", icon: <PieChartOutlined />, label: "报价表" },
+    { key: "priceSheet", icon: <PieChartOutlined />, label: "报价单" },
     {
       key: "projectManagement",
       icon: <ContainerOutlined />,

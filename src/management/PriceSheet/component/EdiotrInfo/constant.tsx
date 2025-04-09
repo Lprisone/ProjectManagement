@@ -3,7 +3,6 @@ import { FormInstance } from "antd";
 
 export interface Props {
   form: FormInstance;
-  currentInfo: DataType[] | undefined;
 }
 
 export const INFO_LAYOUT = {

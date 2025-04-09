@@ -5,33 +5,21 @@ import { Button, Form, Input } from "antd";
 import EditorInfo from "./component/EdiotrInfo";
 import { jsPDF } from "jspdf";
 import { postRequest, downloadPdf } from "src/utils";
+import dayjs from "dayjs";
 
 const listUrl = "/quotation/createQuotation"; // 查询接口
 
 const PriceSheet = () => {
   const [form] = Form.useForm();
-  const [searchValue, setSearchValue] = useState<string>("");
-  const [currentInfo, setCurrentInfo] = useState<any>({});
-
-  useEffect(() => {
-    if (searchValue) queryData(searchValue);
-  }, [searchValue]);
-
-  /** 接口数据查询 */
-  const queryData = async (keyword: string) => {
-    console.log("keyword", keyword);
-    await postRequest({}, listUrl);
-    // setCurrentInfo();
-  };
 
   const generatePDF = async () => {
     const values = await form.validateFields();
     const newJsonData = {
       quotationRecipientVo: {
-        to: values?.to,
+        to: values?.to?.[0],
         recipient: values?.recipient,
         telephone: values?.telephone,
-        date: values?.date,
+        date: dayjs(values?.date)?.format("YYYY-MM-DD"),
         email: values?.email,
         remark: values?.remark,
         owner: values?.owner,
@@ -63,19 +51,19 @@ const PriceSheet = () => {
 
   return (
     <div className="sheet-container">
-      <div className="sheet-filter">
+      {/* <div className="sheet-filter">
         <Input
           onChange={(e) => setSearchValue(e?.target?.value)}
           className="price-sheet-head-search"
           placeholder="请输入关键字"
         />
-      </div>
+      </div> */}
       <div className="sheet-body">
-        <EditorInfo form={form} currentInfo={currentInfo as any} />
+        <EditorInfo form={form} />
       </div>
       <div className="sheet-footer">
         <Button type="primary" onClick={() => generatePDF()}>
-          生成PDF
+          生成报价单
         </Button>
       </div>
     </div>

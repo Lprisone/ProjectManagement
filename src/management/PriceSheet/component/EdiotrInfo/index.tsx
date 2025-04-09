@@ -1,22 +1,46 @@
 /** 编辑信息 */
-import React, { useEffect } from "react";
-import { Form, Input, Col, Row, Switch, Select } from "antd";
+import React, { useEffect, useState } from "react";
+import { Form, Input, Col, Row, Switch, Select, DatePicker } from "antd";
 import { Props, INFO_LAYOUT, modeList } from "./constant";
 import _ from "lodash";
 import "./index.scss";
+import { postRequest } from "src/utils";
+import dayjs from 'dayjs';
 
 const { Option } = Select;
+const userDetailUrl = "/user/selectUser";
 
 const EditorInfo = (props: Props) => {
-  const { currentInfo, form } = props;
+  const { form } = props;
+  const [getCompany, setGetCompany] = useState<string[]>([]);
+  const [currentInfo, setCurrentInfo] = useState<any>([]);
 
-  useEffect(() => {
-    if (!_.isEmpty(currentInfo)) {
-      form.setFieldsValue({
-        ...currentInfo,
-      });
+  const searchUser = async () => {
+    const param = {
+      pageNum: 1,
+      pageSize: 100,
+      company: undefined,
+    };
+    const res = await postRequest(param, userDetailUrl);
+    const companys = res?.data?.userVoList?.map((item: any) => item?.company);
+    setCurrentInfo(res?.data?.userVoList);
+    setGetCompany(companys);
+  };
+
+  const handleValue = (toInfo: any) => {
+    if (!_.isEmpty(toInfo)) {
+      const info = currentInfo?.find(
+        (item: any) => item?.company === toInfo?.[0]
+      );
+      if (!_.isEmpty(info)){
+        form.setFieldsValue({
+          ...info,
+          recipient: info?.contactPerson,
+          date: dayjs().startOf("day"),
+        });
+      }
     }
-  }, [currentInfo]);
+  };
 
   const style: React.CSSProperties = {
     padding: "8px 0",
@@ -31,12 +55,18 @@ const EditorInfo = (props: Props) => {
             <Row gutter={[16, 24]}>
               <Col className="gutter-row" span={7}>
                 <div style={style}>
-                  <Form.Item
-                    label="to"
-                    name="to"
-                    rules={[{ required: false, message: "Please input!" }]}
-                  >
-                    <Input />
+                  <Form.Item label="to" name="to" rules={[{ required: false }]}>
+                    <Select
+                      mode="tags"
+                      onFocus={searchUser}
+                      onChange={(value) => handleValue(value)}
+                    >
+                      {getCompany?.map((item: any) => (
+                        <Option value={item} title={item}>
+                          {item}
+                        </Option>
+                      ))}
+                    </Select>
                   </Form.Item>
                 </div>
               </Col>
@@ -45,7 +75,7 @@ const EditorInfo = (props: Props) => {
                   <Form.Item
                     label="收件人"
                     name="recipient"
-                    rules={[{ required: false, message: "Please input!" }]}
+                    rules={[{ required: false }]}
                   >
                     <Input />
                   </Form.Item>
@@ -78,9 +108,9 @@ const EditorInfo = (props: Props) => {
                   <Form.Item
                     label="日期"
                     name="date"
-                    rules={[{ required: false, message: "Please input!" }]}
+                    rules={[{ required: false }]}
                   >
-                    <Input />
+                    <DatePicker style={{width: '600px'}} />
                   </Form.Item>
                 </div>
               </Col>
